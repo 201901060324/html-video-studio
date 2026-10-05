@@ -1,0 +1,42 @@
+[
+  {
+    "file": "p1-cover.html",
+    "seconds": 6.06,
+    "audio": "voice/p1.mp3"
+  },
+  {
+    "file": "p2-misconception.html",
+    "seconds": 8.75,
+    "audio": "voice/p2.mp3"
+  },
+  {
+    "file": "p3-korea.html",
+    "seconds": 10.6,
+    "audio": "voice/p3.mp3"
+  },
+  {
+    "file": "p4-japan.html",
+    "seconds": 10.26,
+    "audio": "voice/p4.mp3"
+  },
+  {
+    "file": "p5-china-split.html",
+    "seconds": 11.63,
+    "audio": "voice/p5.mp3"
+  },
+  {
+    "file": "p6-china-rural.html",
+    "seconds": 11.29,
+    "audio": "voice/p6.mp3"
+  },
+  {
+    "file": "p7-china-urban.html",
+    "seconds": 10.67,
+    "audio": "voice/p7.mp3"
+  },
+  {
+    "file": "p8-outro.html",
+    "seconds": 8.75,
+    "audio": "voice/p8.mp3"
+  }
+]

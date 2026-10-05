@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 15% 0%, #0d2c48 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:96px 120px 122px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#8FC2EE;
+    border:1px solid rgba(143,194,238,.4); border-radius:999px; padding:12px 30px; margin-bottom:36px; }
+  h1 { font-size:82px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:30px; height:3px; width:260px; background:#55A5E8; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .flow { margin-top:32px; display:flex; align-items:center; gap:24px; }
+  .step { padding:24px 32px; border-radius:18px; background:rgba(95,174,236,.12);
+    border:1px solid rgba(95,174,236,.30); text-align:center; }
+  .step .y { font-size:26px; color:#8FC2EE; margin-bottom:10px; letter-spacing:.08em; }
+  .step .v { font-size:46px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums; line-height:1.1; }
+  .step .d { margin-top:10px; font-size:23px; color:#9BB4CC; }
+  .arw { font-size:38px; color:#3E7FB8; flex:none; }
+
+  .grid2 { margin-top:28px; display:grid; grid-template-columns:1fr 1fr; gap:24px 42px; }
+  .stat { padding:24px 34px; border-radius:18px;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10); }
+  .stat .v { font-size:50px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums; line-height:1.08; }
+  .stat .v span { font-size:28px; color:#C9D8E8; font-weight:400; }
+  .stat .l { margin-top:13px; font-size:25px; color:#9BB4CC; line-height:1.45; }
+
+  .warn { margin-top:auto; padding:28px 46px; border-radius:20px;
+    background:rgba(242,145,92,.13); border:1px solid rgba(242,145,92,.36); }
+  .warn .k { font-size:23px; letter-spacing:.2em; color:#E8A87C; margin-bottom:12px; }
+  .warn .s { font-size:31px; font-weight:600; color:#FFFFFF; line-height:1.4; }
+  .warn .s b { color:#F2915C; }
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">城镇职工 · 5.47 亿参保</div>
+    <h1 class="a" style="animation-delay:.2s">正在进入日本模式</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="flow">
+      <div class="step a" style="animation-delay:.56s"><div class="y">早年</div><div class="v">10%</div><div class="d">年度调整幅度</div></div>
+      <div class="arw">→</div>
+      <div class="step a" style="animation-delay:.66s"><div class="y">其后</div><div class="v">5%</div><div class="d">逐步下行</div></div>
+      <div class="arw">→</div>
+      <div class="step a" style="animation-delay:.76s"><div class="y">近年</div><div class="v">3%</div><div class="d">继续收窄</div></div>
+      <div class="arw">→</div>
+      <div class="step a" style="animation-delay:.86s"><div class="y">2025 年</div><div class="v">2%</div><div class="d">给付增速系统性下行</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="stat a" style="animation-delay:.96s">
+        <div class="v">2025 <span>年落地</span></div>
+        <div class="l">延迟退休实施 · 缴费年限 2030 年起由 15 年提至 20 年</div>
+      </div>
+      <div class="stat a" style="animation-delay:1.06s">
+        <div class="v">1.25 <span>万亿元</span></div>
+        <div class="l">中央财政转移支付保障发放 · 国资已划转权益 2.31 万亿</div>
+      </div>
+    </div>
+
+    <div class="warn a" style="animation-delay:1.2s">
+      <div class="k">中国独有</div>
+      <div class="s">老龄化速度全球最快（7%→14% 仅约 20 年，日本用了 25 年），<b>且未富先老</b> —— 制度自我修正的窗口被压缩了一半</div>
+    </div>
+
+    <div class="foot">数据来源：人社部 · 2026 年政府工作报告 · 人口统计研究</div>
+  </div>
+</div>
+</body>
+</html>

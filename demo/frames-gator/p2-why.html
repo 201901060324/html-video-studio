@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage {
+    width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #16304a 0%, #0B1622 62%);
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px;
+  }
+  .wrap { position:absolute; inset:0; padding:120px 120px 74px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:none; } }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .8s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .kicker { font-size:28px; letter-spacing:.2em; color:#7FA6CC; margin-bottom:26px; }
+  h2 { font-size:64px; font-weight:600; color:#F4F8FC; line-height:1.28; }
+
+  .quote {
+    margin-top:46px; padding:38px 44px; border-radius:16px;
+    background:rgba(242,145,92,.09); border-left:5px solid #F2915C;
+  }
+  .quote .q { font-size:38px; color:#F6D9C2; line-height:1.6; }
+  .quote .n { margin-top:20px; font-size:24px; color:#A98F79; }
+
+  .grid3 { margin-top:auto; display:flex; gap:36px; }
+  .item { flex:1; padding:32px 34px 28px; border-radius:16px;
+    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); }
+  .item .t { font-size:29px; color:#F0C65E; margin-bottom:16px; }
+  .item .d { font-size:26px; color:#9BB4CC; line-height:1.6; }
+
+  .foot { margin-top:28px; font-size:22px; color:#5F738A; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="kicker a" style="animation-delay:.05s">01 · 为什么要做这件事</div>
+    <h2 class="a" style="animation-delay:.2s">他的判断有效，但散落在流水里</h2>
+
+    <div class="quote a" style="animation-delay:.42s">
+      <div class="q">"很多东西是凭感觉。"<br>——他自己在直播里也这么说</div>
+      <div class="n">A 股复盘博主 · 四年写了 711 篇</div>
+    </div>
+
+    <div class="grid3">
+      <div class="item a" style="animation-delay:.62s">
+        <div class="t">经验有效</div>
+        <div class="d">每天写复盘，方法论在四年里反复被使用和修正</div>
+      </div>
+      <div class="item a" style="animation-delay:.76s">
+        <div class="t">不成体系</div>
+        <div class="d">散落在日复盘流水里，没有沉淀成可复用的结构</div>
+      </div>
+      <div class="item a" style="animation-delay:.9s">
+        <div class="t">无法复用</div>
+        <div class="d">想学的人翻几百篇文章，也抓不到核心判断逻辑</div>
+      </div>
+    </div>
+    <div class="foot">素材来源：作者公开文章与直播回放 · 版权归原作者所有</div>
+  </div>
+</div>
+</body>
+</html>

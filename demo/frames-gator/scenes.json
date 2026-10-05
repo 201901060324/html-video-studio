@@ -1,0 +1,42 @@
+[
+  {
+    "file": "p0-cover-bili.html",
+    "seconds": 15.58,
+    "audio": "voice/p1.mp3"
+  },
+  {
+    "file": "p2-why.html",
+    "seconds": 15.48,
+    "audio": "voice/p2.mp3"
+  },
+  {
+    "file": "p3-translate.html",
+    "seconds": 16.3,
+    "audio": "voice/p3.mp3"
+  },
+  {
+    "file": "p4-pipeline.html",
+    "seconds": 13.06,
+    "audio": "voice/p4.mp3"
+  },
+  {
+    "file": "p5-nobacktest.html",
+    "seconds": 17.18,
+    "audio": "voice/p5.mp3"
+  },
+  {
+    "file": "p6-limits.html",
+    "seconds": 18.38,
+    "audio": "voice/p6.mp3"
+  },
+  {
+    "file": "p7-howto.html",
+    "seconds": 19.54,
+    "audio": "voice/p7.mp3"
+  },
+  {
+    "file": "p8-outro.html",
+    "seconds": 16.01,
+    "audio": "voice/p8.mp3"
+  }
+]

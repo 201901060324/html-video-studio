@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #16304a 0%, #0B1622 62%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:104px 120px 122px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#7FA6CC;
+    border:1px solid rgba(127,166,204,.36); border-radius:999px; padding:12px 30px; margin-bottom:38px; }
+  h1 { font-size:84px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  h1 em { font-style:normal; color:#F0C65E; }
+  .rule { margin-top:34px; height:3px; width:280px; background:#3E7FB8; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .row { margin-top:48px; display:flex; gap:44px; }
+  .card { flex:1; padding:44px 46px; border-radius:22px; position:relative; overflow:hidden; }
+  .card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:6px; }
+  .card.m { background:rgba(95,174,236,.10); border:1px solid rgba(95,174,236,.26); }
+  .card.m::before { background:#5FAEEC; }
+  .card.p { background:rgba(242,198,94,.10); border:1px solid rgba(242,198,94,.26); }
+  .card.p::before { background:#F0C65E; }
+  .card .lb { font-size:24px; letter-spacing:.16em; color:#7EBBE8; margin-bottom:22px; }
+  .card.p .lb { color:#D8B668; }
+  .card h2 { font-size:46px; font-weight:600; color:#FFFFFF; line-height:1.24; }
+  .card .tx { margin-top:24px; font-size:27px; color:#A7BCD0; line-height:1.6; font-weight:300; }
+  .card .amt { margin-top:28px; font-size:32px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .card.m .amt { color:#77C0F0; } .card.p .amt { color:#F2C55C; }
+
+  .note { margin-top:auto; padding:30px 44px; border-radius:20px;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.09); }
+  .note .t { font-size:32px; color:#F4F8FC; line-height:1.55; font-weight:300; }
+  .note .t b { color:#F2915C; font-weight:600; }
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">先纠正一个前提</div>
+    <h1 class="a" style="animation-delay:.2s">他们<em>有保险</em>，缺的是生活费</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="row">
+      <div class="card m a" style="animation-delay:.58s">
+        <div class="lb">医疗 · 介护保险</div>
+        <h2>报销治疗费与护理费</h2>
+        <div class="tx">日本 1961 年即实现国民皆保险，介护保险自 2000 年运行，老人自付比例通常只有一到两成</div>
+        <div class="amt">有 · 覆盖充分</div>
+      </div>
+      <div class="card p a" style="animation-delay:.74s">
+        <div class="lb">养老金 · 年金</div>
+        <h2>负责每个月的现金流</h2>
+        <div class="tx">房租、水电、吃饭、交通 —— 这些钱不住院、不报销，只能靠年金或继续劳动</div>
+        <div class="amt">不足 · 于是继续工作</div>
+      </div>
+    </div>
+
+    <div class="note a" style="animation-delay:.92s">
+      <div class="t">同一个概念混淆，会得出完全相反的结论。<b>医保报销的是风险，年金保障的是日常。</b></div>
+    </div>
+
+    <div class="foot">数据来源：厚生劳动省 · 日本介护保险制度资料</div>
+  </div>
+</div>
+</body>
+</html>

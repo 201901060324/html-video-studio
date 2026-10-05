@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage {
+    width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #1E2436 0%, #0B1622 66%);
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px;
+  }
+  .wrap { position:absolute; inset:0; padding:110px 120px 74px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .8s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .kicker { font-size:27px; letter-spacing:.2em; color:#E0A070; margin-bottom:22px; }
+  h2 { font-size:60px; font-weight:600; color:#F4F8FC; line-height:1.26; }
+
+  .banner {
+    margin-top:44px; padding:36px 42px; border-radius:16px;
+    background:rgba(224,120,90,.13); border:1px solid rgba(224,120,90,.42);
+  }
+  .banner .bt { font-size:41px; color:#F5B49A; margin-bottom:18px; }
+  .banner .bd { font-size:28px; color:#E8D5CC; line-height:1.65; }
+
+  .list { margin-top:38px; display:flex; flex-direction:column; gap:20px; }
+  .it { display:flex; gap:22px; align-items:flex-start; }
+  .x {
+    flex-shrink:0; width:38px; height:38px; border-radius:50%; margin-top:4px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; color:#F5B49A; background:rgba(224,120,90,.2); border:1px solid rgba(224,120,90,.5);
+  }
+  .it .tx { font-size:29px; color:#C9D6E2; line-height:1.6; }
+  .it .tx b { color:#F0C65E; font-weight:600; }
+
+  .foot { margin-top:auto; padding-top:24px; font-size:22px; color:#5F738A; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="kicker a" style="animation-delay:.05s">04 · 必须说清楚的一件事</div>
+    <h2 class="a" style="animation-delay:.18s">这个项目，没有做过回测</h2>
+
+    <div class="banner a" style="animation-delay:.4s">
+      <div class="bt">我不想拿"可能不准"的东西糊弄你</div>
+      <div class="bd">
+        仓库里能看到"把复盘和行情对齐"的表格和脚本，<b>但那些数字是 AI 自己跑出来的</b>，
+        我没有实际验证过，也没有人工复核过。
+      </div>
+    </div>
+
+    <div class="list">
+      <div class="it a" style="animation-delay:.62s">
+        <div class="x">✕</div>
+        <div class="tx">它<b>不能证明这套规则有效</b>，更不能证明能赚钱</div>
+      </div>
+      <div class="it a" style="animation-delay:.76s">
+        <div class="x">✕</div>
+        <div class="tx">想验证，请自己跑一遍，<b>不要引用这里的任何数字当结论</b></div>
+      </div>
+      <div class="it a" style="animation-delay:.9s">
+        <div class="x">✕</div>
+        <div class="tx">规则准不准是<b>未知数</b>——这也是我把它叫"笔记"而不是"策略"的原因</div>
+      </div>
+    </div>
+    <div class="foot">能说的只有：整理过程可追溯到原文出处。"整理得忠实"和"判断得准"是两件事</div>
+  </div>
+</div>
+</body>
+</html>

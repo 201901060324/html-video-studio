@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 50% 0%, #16304a 0%, #0B1622 62%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:104px 120px 122px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#7FA6CC;
+    border:1px solid rgba(127,166,204,.36); border-radius:999px; padding:12px 30px; margin-bottom:38px; }
+  h1 { font-size:82px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:32px; height:3px; width:280px; background:#3E7FB8; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .cards { margin-top:48px; display:flex; gap:40px; }
+  .card { flex:1; padding:40px 40px 36px; border-radius:22px; position:relative; overflow:hidden;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10); }
+  .card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:6px; }
+  .card:nth-child(1)::before { background:#F2915C; }
+  .card:nth-child(2)::before { background:#5FAEEC; }
+  .card:nth-child(3)::before { background:#F0C65E; }
+  .card .idx { font-size:56px; font-weight:600; color:rgba(255,255,255,.16); line-height:1; margin-bottom:20px;
+    font-variant-numeric:tabular-nums; }
+  .card .q { font-size:42px; font-weight:600; color:#FFFFFF; line-height:1.32; }
+  .card .d { margin-top:22px; font-size:26px; color:#9BB4CC; line-height:1.6; font-weight:300; }
+
+  .final { margin-top:auto; padding:32px 46px; border-radius:20px;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10); }
+  .final .t { font-size:34px; color:#E3EDF6; line-height:1.55; font-weight:300; }
+  .final .t b { color:#F2915C; font-weight:600; }
+  .final .t i { font-style:normal; color:#5FAEEC; font-weight:600; }
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">落到自身</div>
+    <h1 class="a" style="animation-delay:.2s">三个问题，决定你的养老处境</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="cards">
+      <div class="card a" style="animation-delay:.58s">
+        <div class="idx">01</div>
+        <div class="q">在哪个池子</div>
+        <div class="d">职工、居民、还是未参保。<br>这不是百分比差异，是数量级差异。</div>
+      </div>
+      <div class="card a" style="animation-delay:.72s">
+        <div class="idx">02</div>
+        <div class="q">在哪个省</div>
+        <div class="d">上海基础养老金 1555 元、北京 998 元，<br>多数省份不足 200 元。</div>
+      </div>
+      <div class="card a" style="animation-delay:.86s">
+        <div class="idx">03</div>
+        <div class="q">有无第二三支柱</div>
+        <div class="d">企业年金仅覆盖 3343 万人。<br>有和没有，退休后是两种生活。</div>
+      </div>
+    </div>
+
+    <div class="final a" style="animation-delay:1.05s">
+      <div class="t">韩国是<b>「制度还没长成」</b>，日本是<b>「建成后被削薄」</b>，而<i>中国两件事正在同时发生</i>。</div>
+    </div>
+
+    <div class="foot">数据来源：人社部 · 民政部、全国老龄办《2025 年度国家老龄事业发展公报》· OECD · 韩国统计厅 · 日本总务省</div>
+  </div>
+</div>
+</body>
+</html>

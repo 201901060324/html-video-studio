@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage {
+    width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #1A2B3E 0%, #0B1622 64%);
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px;
+  }
+  .wrap { position:absolute; inset:0; padding:110px 120px 74px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .8s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.2em; color:#7FA6CC;
+    border:1px solid rgba(127,166,204,.36); border-radius:999px; padding:12px 30px; margin-bottom:38px; }
+  h2 { font-size:70px; font-weight:600; color:#F4F8FC; line-height:1.24; }
+  .lead { margin-top:28px; font-size:32px; color:#9BB4CC; line-height:1.6; max-width:1420px; }
+  .rule { margin-top:38px; height:3px; width:260px; background:#3E7FB8; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; }
+
+  .cards { margin-top:auto; display:flex; gap:36px; }
+  .cd { flex:1; padding:30px 34px 28px; border-radius:16px;
+    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.10); }
+  .cd .ct { font-size:27px; color:#F0C65E; margin-bottom:16px; }
+  .cd .cx { font-size:25px; color:#9BB4CC; line-height:1.62; }
+
+  .legal {
+    margin-top:34px; padding:26px 34px; border-radius:14px;
+    background:rgba(224,120,90,.11); border-left:5px solid #E0785A;
+    font-size:26px; color:#E5D0C6; line-height:1.62;
+  }
+  .legal b { color:#F5B49A; font-weight:600; }
+  .foot { margin-top:22px; font-size:22px; color:#5F738A; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">07 · 最后</div>
+    <h2 class="a" style="animation-delay:.2s">这是笔记，不是答案</h2>
+    <div class="lead a" style="animation-delay:.38s">
+      这套东西的价值不在于告诉你买什么、什么时候买。
+      它更像一份<strong style="color:#F0C65E">检查清单</strong>——
+      帮你在判断的时候，不漏掉那些容易被忽略的条件。
+    </div>
+    <div class="rule a" style="animation-delay:.55s"></div>
+
+    <div class="cards">
+      <div class="cd a" style="animation-delay:.72s">
+        <div class="ct">欢迎挑刺</div>
+        <div class="cx">哪条规则提炼得不到位，直接提 issue。规则这东西，越多人挑刺才越靠谱。</div>
+      </div>
+      <div class="cd a" style="animation-delay:.86s">
+        <div class="ct">欢迎补充</div>
+        <div class="cx">新文章里的新观点，欢迎提 PR。你手上有 2024 上半年的回放，一条线索也行。</div>
+      </div>
+      <div class="cd a" style="animation-delay:1.0s">
+        <div class="ct">欢迎验证</div>
+        <div class="cx">自己跑一遍回测，把结果发评论区。这套东西现在缺的正是有效样本。</div>
+      </div>
+    </div>
+
+    <div class="legal a" style="animation-delay:1.16s">
+      <b>⚠️ 不构成投资建议。</b>
+      原始文章、视频、直播口述的著作权归原作者所有，本项目仅为基于公开信息的整理与再创作，不含原文全文。
+      原作者的观点本身也可能出错。
+    </div>
+    <div class="foot">github.com/201901060324/gator-method</div>
+  </div>
+</div>
+</body>
+</html>

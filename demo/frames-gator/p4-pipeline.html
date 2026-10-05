@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage {
+    width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #16304a 0%, #0B1622 62%);
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px;
+  }
+  .wrap { position:absolute; inset:0; padding:110px 120px 74px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .8s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .kicker { font-size:27px; letter-spacing:.2em; color:#7FA6CC; margin-bottom:22px; }
+  h2 { font-size:58px; font-weight:600; color:#F4F8FC; line-height:1.26; }
+
+  .chain { margin-top:46px; display:flex; align-items:center; gap:0; }
+  .step { flex:1; text-align:center; }
+  .node {
+    width:150px; height:150px; margin:0 auto 20px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:31px; font-weight:600; color:#FFFFFF;
+    background:rgba(95,174,236,.14); border:2px solid rgba(95,174,236,.5);
+  }
+  .node.or { background:rgba(242,145,92,.14); border-color:rgba(242,145,92,.5); }
+  .node.gd { background:rgba(240,198,94,.14); border-color:rgba(240,198,94,.5); }
+  .node.gr { background:rgba(120,200,140,.14); border-color:rgba(120,200,140,.5); }
+  .cap { font-size:24px; color:#9BB4CC; }
+  .arrow { font-size:34px; color:#4A6B8A; padding:0 6px; margin-bottom:44px; }
+
+  .tech {
+    margin-top:52px; border-radius:16px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.035);
+  }
+  .tech .hd { padding:20px 30px; background:rgba(255,255,255,.05); font-size:25px; color:#9BB4CC; letter-spacing:.1em; }
+  .rows { display:grid; grid-template-columns:repeat(2,1fr); gap:0 40px; padding:24px 30px 26px; }
+  .r { display:flex; gap:16px; padding:11px 0; border-bottom:1px solid rgba(255,255,255,.055); }
+  .r .k { font-size:24px; color:#7C93A8; width:190px; flex-shrink:0; }
+  .r .v { font-size:24px; color:#DCEAF6; }
+
+  .foot { margin-top:auto; padding-top:24px; font-size:22px; color:#5F738A; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="kicker a" style="animation-delay:.05s">03 · 全流程：没有手写环节</div>
+    <h2 class="a" style="animation-delay:.18s">从抓文章到建站，AI 全程接管</h2>
+
+    <div class="chain">
+      <div class="step a" style="animation-delay:.4s">
+        <div class="node">抓取</div><div class="cap">711 篇文章</div>
+      </div>
+      <div class="arrow a" style="animation-delay:.46s">→</div>
+      <div class="step a" style="animation-delay:.52s">
+        <div class="node or">转写</div><div class="cap">79 场 · 65.7 万字</div>
+      </div>
+      <div class="arrow a" style="animation-delay:.58s">→</div>
+      <div class="step a" style="animation-delay:.64s">
+        <div class="node gr">提炼</div><div class="cap">世界观 → 规则</div>
+      </div>
+      <div class="arrow a" style="animation-delay:.7s">→</div>
+      <div class="step a" style="animation-delay:.76s">
+        <div class="node gd">结构化</div><div class="cap">48 章规则</div>
+      </div>
+      <div class="arrow a" style="animation-delay:.82s">→</div>
+      <div class="step a" style="animation-delay:.88s">
+        <div class="node">建站</div><div class="cap">在线文档</div>
+      </div>
+    </div>
+
+    <div class="tech a" style="animation-delay:1.04s">
+      <div class="hd">每个环节用的技术</div>
+      <div class="rows">
+        <div class="r"><span class="k">智能体</span><span class="v">WorkBuddy 大模型 Agent</span></div>
+        <div class="r"><span class="k">文章抓取</span><span class="v">Python + requests</span></div>
+        <div class="r"><span class="k">音频提取</span><span class="v">yt-dlp + ffmpeg</span></div>
+        <div class="r"><span class="k">语音转写</span><span class="v">mlx-whisper（本地推理）</span></div>
+        <div class="r"><span class="k">语料分析</span><span class="v">n-gram 词频共现统计</span></div>
+        <div class="r"><span class="k">行情数据</span><span class="v">westock-data 接口</span></div>
+        <div class="r"><span class="k">文档站</span><span class="v">docsify + GitHub Pages</span></div>
+        <div class="r"><span class="k">日常维护</span><span class="v">GitHub Actions 定时同步</span></div>
+      </div>
+    </div>
+    <div class="foot">语音转写在本机 Apple Silicon 上完成，音频不上传任何服务器</div>
+  </div>
+</div>
+</body>
+</html>

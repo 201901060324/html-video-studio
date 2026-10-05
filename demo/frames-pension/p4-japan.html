@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 15% 0%, #0d2c48 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:106px 120px 126px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#8FC2EE;
+    border:1px solid rgba(143,194,238,.4); border-radius:999px; padding:12px 30px; margin-bottom:40px; }
+  h1 { font-size:82px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:32px; height:3px; width:260px; background:#55A5E8; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .grid2 { margin-top:48px; display:grid; grid-template-columns:1fr 1fr; gap:24px 42px; }
+  .stat { padding:28px 34px; border-radius:18px;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10); }
+  .stat .v { font-size:54px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums; line-height:1.08; }
+  .stat .v span { font-size:30px; color:#C9D8E8; font-weight:400; }
+  .stat .l { margin-top:13px; font-size:25px; color:#9BB4CC; line-height:1.45; }
+  .stat.hot { background:rgba(95,174,236,.13); border-color:rgba(95,174,236,.32); }
+  .stat.hot .v { color:#79BEFA; }
+
+  .verdict { margin-top:auto; padding:32px 48px; border-radius:20px;
+    background:rgba(95,174,236,.13); border:1px solid rgba(95,174,236,.38); }
+  .verdict .k { font-size:23px; letter-spacing:.2em; color:#8FC2EE; margin-bottom:12px; }
+  .verdict .s { font-size:38px; font-weight:600; color:#FFFFFF; line-height:1.35; }
+  .foot { position:absolute; left:120px; bottom:42px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">日本</div>
+    <h1 class="a" style="animation-delay:.2s">1961 年全覆盖，但给付在被慢慢削薄</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="grid2">
+      <div class="stat hot a" style="animation-delay:.56s">
+        <div class="v">61.2% <span>→ 50.4%</span></div>
+        <div class="l">所得替代率 · 财政検証推算至 2057 年度</div>
+      </div>
+      <div class="stat a" style="animation-delay:.66s">
+        <div class="v">1.9% <span>vs 物价 3.2%</span></div>
+        <div class="l">2026 年度年金涨幅 · 宏观经济浮动连续四年发动</div>
+      </div>
+      <div class="stat a" style="animation-delay:.76s">
+        <div class="v">943 万 <span>人 · 占就业 13.8%</span></div>
+        <div class="l">65 岁以上仍在工作 · 其中约七成为非正式雇佣</div>
+      </div>
+      <div class="stat hot a" style="animation-delay:.86s">
+        <div class="v">20% <span>· 单身女性 44%</span></div>
+        <div class="l">65 岁以上相对贫困率 · OECD 均值约 12.6%</div>
+      </div>
+    </div>
+
+    <div class="verdict a" style="animation-delay:1s">
+      <div class="k">症结</div>
+      <div class="s">不是没建好，而是被制度主动下调 —— 用「削给付」替代「崩制度」来换代际平衡</div>
+    </div>
+
+    <div class="foot">数据来源：厚生劳动省 2026 年度年金额改定 · 总务省 2026 年 9 月人口推算 · OECD</div>
+  </div>
+</div>
+</body>
+</html>

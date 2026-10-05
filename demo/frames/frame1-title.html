@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>frame 1 · title</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; }
+  body {
+    font-family: "PingFang SC", "Helvetica Neue", "Inter", system-ui, sans-serif;
+    background: radial-gradient(circle at 50% 40%, #1b1733 0%, #0b0b0f 68%);
+    color: #f5f5f7;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative;
+  }
+  .ribbon { position: absolute; top: 0; left: 0; right: 0; height: 5px; background: #ff5a2c; }
+  .eyebrow {
+    font-size: 34px; letter-spacing: 0.42em; text-transform: uppercase;
+    color: #ff5a2c; font-weight: 500; margin-bottom: 44px;
+    animation: fadeUp .9s cubic-bezier(.22,1,.36,1) .15s both;
+  }
+  .title { font-size: 132px; font-weight: 800; line-height: 1.14; letter-spacing: -0.02em; text-align: center; }
+  .title .line { display: block; }
+  .title .line > span { display: inline-block; }
+  .l1 > span { animation: rise 1s cubic-bezier(.22,1,.36,1) .3s both; }
+  .l2 > span { animation: rise 1s cubic-bezier(.22,1,.36,1) .5s both; }
+  .accent { color: #ff5a2c; }
+  .sub {
+    margin-top: 46px; font-size: 40px; font-weight: 400; color: #9a9aa8;
+    letter-spacing: 0.06em;
+    animation: fadeUp .9s cubic-bezier(.22,1,.36,1) .95s both;
+  }
+  .rule { margin-top: 58px; width: 0; height: 2px; background: #ff5a2c; animation: grow .8s cubic-bezier(.22,1,.36,1) 1.15s both; }
+  .foot {
+    position: absolute; bottom: 76px; font-size: 26px; color: #55555f;
+    letter-spacing: 0.22em; animation: fadeUp .8s ease-out 1.5s both;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(76px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes grow { to { width: 320px; } }
+</style>
+</head>
+<body>
+  <div class="ribbon"></div>
+  <div class="eyebrow">Programmatic Video</div>
+  <h1 class="title">
+    <span class="line l1"><span>不靠视频 AI</span></span>
+    <span class="line l2"><span>也<span class="accent">能出片</span></span></span>
+  </h1>
+  <div class="sub">HTML 页面 → 逐帧录制 → MP4</div>
+  <div class="rule"></div>
+  <div class="foot">2026 · 确定性渲染</div>
+</body>
+</html>

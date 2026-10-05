@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="DOdVBM0sELTRjTG9X1HaDK">
+<head data-page-node-id="DR5pXipN2lrQIxLViFXVvL">
+<meta charset="utf-8" data-page-node-id="ihTGjHc7anVaw4WEjCYeiD">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage {
+    width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 100% at 50% 0%, #1B4A38 0%, #0C2B22 55%, #071A15 100%);
+  }
+  /* 鳄鱼绿主色，区别于正片的蓝调 */
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:100px 100px;
+  }
+  .glow {
+    position:absolute; right:-140px; top:-140px; width:760px; height:760px; border-radius:50%;
+    background:radial-gradient(circle, rgba(201,162,39,.20) 0%, rgba(201,162,39,0) 70%);
+  }
+  .wrap { position:absolute; inset:0; padding:96px 110px 70px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:none; } }
+  @keyframes pop { from { opacity:0; transform:scale(.88); } to { opacity:1; transform:none; } }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .8s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; bottom:44px; z-index:5; font-size:25px; letter-spacing:.08em;
+    color:#FFFFFF; padding:10px 20px; border-radius:8px; background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  /* 右上角头像 */
+  .avatar {
+    position:absolute; right:74px; top:64px; z-index:6;
+    width:150px; height:150px; border-radius:32px; overflow:hidden;
+    border:3px solid rgba(201,162,39,.62);
+    box-shadow:0 14px 44px rgba(0,0,0,.55);
+    opacity:0; animation:pop .7s cubic-bezier(.22,.9,.3,1) .3s forwards;
+  }
+  .avatar img { width:100%; height:100%; display:block; }
+
+  .tag {
+    display:inline-block; align-self:flex-start; font-size:25px; letter-spacing:.2em; color:#8FCBAF;
+    border:1px solid rgba(143,203,175,.38); border-radius:999px;
+    padding:11px 28px; margin-bottom:34px;
+  }
+  h1 { font-size:104px; font-weight:700; color:#FFFFFF; letter-spacing:.005em; line-height:1.14; }
+  h1 .hl { color:#E8C55A; }
+  .sub { margin-top:28px; font-size:37px; color:#A8CDBB; font-weight:300; line-height:1.5; }
+
+  /* 认怂标签：全片差异点，封面必须看得见 */
+  .honest {
+    margin-top:34px; display:inline-flex; align-items:center; gap:20px; align-self:flex-start;
+    padding:20px 34px; border-radius:14px;
+    background:rgba(224,120,90,.16); border:2px solid rgba(224,120,90,.55);
+  }
+  .honest .h1t { font-size:34px; color:#F5B49A; font-weight:600; }
+  .honest .h2t { font-size:27px; color:#E0C5B8; }
+
+  .row { margin-top:auto; display:flex; gap:34px; }
+  .cell {
+    flex:1; padding:32px 36px 28px; border-radius:18px;
+    background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.13);
+  }
+  .cell .cn { font-size:27px; color:#9CC4B2; margin-bottom:16px; letter-spacing:.04em; }
+  .cell .cv { font-size:82px; font-weight:700; color:#FFFFFF; font-variant-numeric:tabular-nums; line-height:1; }
+  .cell .cd { margin-top:13px; font-size:23px; color:#7FA894; }
+  .k .cv { color:#E8C55A; } .j .cv { color:#5FD9A8; } .c .cv { color:#7FC8E8; }
+
+  .foot { margin-top:26px; font-size:22px; color:#5C8A76; letter-spacing:.03em; }
+</style>
+</head>
+<body data-page-node-id="4skDjeYIFjJYflI0R6Drhi">
+<div class="stage" data-page-node-id="4zzxnsuqmtfrklO52SjTzQ">
+  <div class="grid" data-page-node-id="AbByPDqcstnJePhz7LDR6Y"></div>
+  <div class="glow" data-page-node-id="SDSHRGNlNuVZpWib8fRlyW"></div>
+  <div class="aibadge" data-page-node-id="u02kfJ91AgKzca5pUGt0TY">本视频含 AI 生成内容</div>
+
+  <div class="avatar" data-page-node-id="yDNt2zMq5yWbQqVRV42yo4"><img src="gator-avatar.png" alt="" data-page-node-id="WrF6jHgj9XWbWsl92q44GO"></div>
+
+  <div class="wrap" data-page-node-id="7xlaDfkge3Zpydh7nOSZRt">
+    <div class="tag a" style="animation-delay:.05s" data-page-node-id="VvsFzNYYiyBYnFkxEruhEK">AI 科普 · 开源项目</div>
+    <h1 class="a" style="animation-delay:.2s" data-page-node-id="JpZPCXBX6MHqABHfz5TmFe">我用 AI 读完了<br data-page-node-id="Sg9mmsVduF9JiytiejJDCo">鳄鱼派<span class="hl" data-page-node-id="i1pVG6uMhL5CgBoLB6YFOt">四年</span>的全部复盘</h1>
+    <div class="sub a" style="animation-delay:.4s" data-page-node-id="WXF8m83pcQCg7YVK4BsxKk">然后把他的判断逻辑，整理成了 48 章规则笔记</div>
+
+    <div class="honest a" style="animation-delay:.56s" data-page-node-id="gFlCzF6yI6iUwSrajhkFmb">
+      <span class="h1t" data-page-node-id="tMNpGW6Mz850CkHI9gm8Ln">⚠ 这个项目没有做过回测</span>
+      <span class="h2t" data-page-node-id="UG27IImdwxlU0sgLuJdYHU">规则准不准，是未知数</span>
+    </div>
+
+    <div class="row" data-page-node-id="jtnjWz5EuwWQnyfTOMeYFd">
+      <div class="cell k a" style="animation-delay:.74s" data-page-node-id="bCtBdZubDtKMfo6ZmBXFRd">
+        <div class="cn" data-page-node-id="ltSYGHgKkeTYLyEPxZNFBX">文章素材</div>
+        <div class="cv" data-page-node-id="YGesFINeif9Fav66tiFD5J">711 篇</div>
+        <div class="cd" data-page-node-id="mx10lHB7k8UyH7Z6LI9mS9">2023-07 至今</div>
+      </div>
+      <div class="cell j a" style="animation-delay:.88s" data-page-node-id="rbDLY9Im2HqVnzE4rmgzjV">
+        <div class="cn" data-page-node-id="hMDkiSDl1SaryA8Vm76uBL">视频 / 直播转写</div>
+        <div class="cv" data-page-node-id="iEjEqrBioRTS3IWRfUgjn5">79 场</div>
+        <div class="cd" data-page-node-id="XKAdIDzxE9xZWC1ka6TxlD">合计 65.7 万字</div>
+      </div>
+      <div class="cell c a" style="animation-delay:1.02s" data-page-node-id="PYNgDMH3gtubXg68hs1CSj">
+        <div class="cn" data-page-node-id="4tSz99FtLjffPzH04lphdO">规则章节</div>
+        <div class="cv" data-page-node-id="giDVio4twonw3NfRPzidN1">48 章</div>
+        <div class="cd" data-page-node-id="WMmTHHW9gnAr6BxDKFHFBc">公开可读 45 章</div>
+      </div>
+    </div>
+    <div class="foot" data-page-node-id="H1OAF148j5vrEPhxFZNDGN">github.com/201901060324/gator-method · 不构成投资建议 · 原始内容版权归原作者所有</div>
+  </div>
+</div>
+</body>
+</html>

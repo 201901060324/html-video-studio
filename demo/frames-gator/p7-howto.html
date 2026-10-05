@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage {
+    width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #16304a 0%, #0B1622 62%);
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px;
+  }
+  .wrap { position:absolute; inset:0; padding:104px 120px 70px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .8s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .kicker { font-size:26px; letter-spacing:.2em; color:#7FA6CC; margin-bottom:18px; }
+  h2 { font-size:52px; font-weight:600; color:#F4F8FC; line-height:1.24; }
+
+  /* 主推方式 */
+  .hero {
+    margin-top:32px; padding:30px 38px 32px; border-radius:16px;
+    background:rgba(95,174,236,.11); border:1px solid rgba(95,174,236,.40);
+  }
+  .heroTop { display:flex; align-items:center; gap:18px; margin-bottom:20px; }
+  .pill { font-size:23px; color:#0B1622; background:#5FAEEC; border-radius:999px; padding:7px 20px; font-weight:600; }
+  .heroTop .ht { font-size:31px; color:#DCEAF6; }
+  .link {
+    font-size:26px; color:#5FAEEC; font-family:ui-monospace, "SF Mono", Menlo, monospace;
+    background:rgba(0,0,0,.32); border:1px solid rgba(95,174,236,.28);
+    border-radius:10px; padding:15px 22px; word-break:break-all; line-height:1.5;
+  }
+  .link b { color:#F0C65E; font-weight:600; }
+  .heroNote { margin-top:18px; font-size:25px; color:#A8BFD3; line-height:1.55; }
+  .heroNote b { color:#F0C65E; font-weight:600; }
+
+  /* 三种方式 */
+  .ways { margin-top:30px; display:flex; gap:28px; }
+  .way { flex:1; padding:26px 30px 24px; border-radius:14px;
+    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.10); }
+  .way .wt { font-size:26px; color:#F0C65E; margin-bottom:14px; }
+  .way .wd { font-size:24px; color:#9BB4CC; line-height:1.58; }
+  .way .wm { margin-top:16px; font-size:23px; color:#6F8599; }
+
+  .foot { margin-top:auto; padding-top:22px; font-size:22px; color:#5F738A; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="kicker a" style="animation-delay:.05s">06 · 怎么用</div>
+    <h2 class="a" style="animation-delay:.18s">别自己复制，把仓库丢给你的 AI</h2>
+
+    <div class="hero a" style="animation-delay:.4s">
+      <div class="heroTop">
+        <span class="pill">推荐</span>
+        <span class="ht">发一句话，让它自己下载安装</span>
+      </div>
+      <div class="link">请访问 <b>github.com/201901060324/gator-method</b><br>
+        ① 下载 SYSTEM-PROMPT.md 作为你的行为准则<br>
+        ② 把仓库当可检索来源，问到具体阈值时去查规则文件</div>
+      <div class="heroNote">规则已拆成 48 个单章文件，<b>AI 一次只读一章</b>，省 token 也答得准</div>
+    </div>
+
+    <div class="ways">
+      <div class="way a" style="animation-delay:.62s">
+        <div class="wt">方式一 · 发链接</div>
+        <div class="wd">把仓库地址发给你的 AI，它自己下载安装</div>
+        <div class="wm">当前对话生效 · 最快</div>
+      </div>
+      <div class="way a" style="animation-delay:.76s">
+        <div class="wt">方式二 · 存助手设定</div>
+        <div class="wd">提示词存进各家 AI 的"助手设定"，永久生效</div>
+        <div class="wm">不用联网 · 长期用推荐</div>
+      </div>
+      <div class="way a" style="animation-delay:.9s">
+        <div class="wt">方式三 · 装技能</div>
+        <div class="wd">一条 git 命令装成技能，AI 按需读取规则</div>
+        <div class="wm">不烧 token · 最省</div>
+      </div>
+    </div>
+    <div class="foot">各平台的设置入口位置、WorkBuddy 安装命令，仓库「一键安装.md」里都列了</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+# 注意不带斜杠：demo/node_modules 是指向工作区外的软链，带斜杠匹配不到
+node_modules
+.pnpm-store/
+.DS_Store
+
+# WorkBuddy 本地数据目录（记忆、日志、会话状态）
+.workbuddy/
+
+# 上游项目 nexu-io/html-video 是独立 clone，自带 .git，不纳入本仓库
+# 获取方式见 README「上游项目」一节
+html-video/
+
+# 渲染中间产物（分片、截图、ffmpeg 临时文件）
+demo/out/clips/
+demo/out/clip*.mp4
+demo/out/concat.txt
+demo/out/chk*.png
+demo/*/clips/
+demo/*/clip*.mp4
+demo/*/concat.txt
+
+# 视频成品：仓库只留 demo/out/demo.mp4 作为效果样例
+# 完整成片本地保留，需要入库时用 git add -f 单独加
+demo/out-gator/*.mp4
+demo/out-pension/*.mp4
+
+# 依赖安装残留
+*.log
