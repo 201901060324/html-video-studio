@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<script type="importmap">
+{ "imports": { "three": "/assets/three/three.module.min.js" } }
+</script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#05090F;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  #cv { position:absolute; inset:0; width:1920px; height:1080px; display:block; }
+
+  .vignette { position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(120% 100% at 50% 45%, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%); }
+
+  .hud { position:absolute; inset:0; padding:96px 120px; display:flex; flex-direction:column; }
+  .tag { display:inline-block; align-self:flex-start; font-size:25px; letter-spacing:.22em; color:#7FD4C0;
+    border:1px solid rgba(127,212,192,.45); border-radius:999px; padding:11px 28px;
+    background:rgba(6,14,22,.6); }
+  h1 { margin-top:28px; font-size:70px; font-weight:600; color:#F4F8FC; line-height:1.16;
+    text-shadow:0 4px 30px rgba(0,0,0,.9); }
+  .rule { margin-top:24px; height:3px; width:260px; background:#4FBFA4; }
+
+  .panel { position:absolute; right:120px; top:96px; width:520px; padding:28px 32px; border-radius:20px;
+    background:rgba(8,16,26,.78); border:1px solid rgba(127,212,192,.26); backdrop-filter:blur(6px); }
+  .panel .ph { font-size:24px; color:#7FD4C0; letter-spacing:.1em; margin-bottom:20px; }
+  .st { display:flex; gap:18px; align-items:flex-start; margin-bottom:20px; }
+  .st:last-child { margin-bottom:0; }
+  .st .idx { flex:none; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:600; color:#05090F; background:#7FD4C0; }
+  .st .bd .h { font-size:27px; color:#FFFFFF; font-weight:500; margin-bottom:5px; }
+  .st .bd .p { font-size:22px; color:#9BB4CC; line-height:1.5; }
+  .st .bd .p b { color:#7FD4C0; }
+
+  .legend { position:absolute; left:120px; bottom:112px; display:flex; flex-direction:column; gap:14px;
+    padding:22px 28px; border-radius:18px; background:rgba(8,16,26,.78);
+    border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(6px); }
+  .legend .li { display:flex; align-items:center; gap:14px; font-size:23px; color:#C6D5E2; }
+  .legend .sw { width:30px; height:10px; border-radius:3px; }
+  .legend .note { margin-top:6px; font-size:20px; color:#7FA6CC; line-height:1.5; max-width:560px; }
+
+  .aibadge { position:absolute; right:56px; bottom:40px; font-size:24px; letter-spacing:.08em;
+    color:#FFFFFF; padding:10px 20px; border-radius:8px; background:rgba(0,0,0,.5);
+    border:1px solid rgba(255,255,255,.28); }
+  .foot { position:absolute; left:120px; bottom:44px; font-size:21px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div class="vignette"></div>
+
+<div class="hud">
+  <div class="tag">3D 样片 · 扰流板</div>
+  <h1>机翼剖切视角<br>看扰流板如何"卸掉"升力</h1>
+  <div class="rule"></div>
+</div>
+
+<div class="panel">
+  <div class="ph">发生了什么</div>
+  <div class="st">
+    <div class="idx">1</div>
+    <div class="bd">
+      <div class="h">接地瞬间扰流板自动全开</div>
+      <div class="p">不需要飞行员按键，主轮接触地面的瞬间由液压弹出</div>
+    </div>
+  </div>
+  <div class="st">
+    <div class="idx">2</div>
+    <div class="bd">
+      <div class="h">上翼面气流被破坏</div>
+      <div class="p">图中可见气流从贴合机翼转为<b>大面积分离翻卷</b>，升力随之消失</div>
+    </div>
+  </div>
+  <div class="st">
+    <div class="idx">3</div>
+    <div class="bd">
+      <div class="h">重量全部压到轮胎</div>
+      <div class="p">这才是关键——不是为了更慢，是为了<b>让刹车有抓地力</b></p>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="li"><span class="sw" style="background:#7FD4C0;"></span>扰流板（已弹起）</div>
+  <div class="li"><span class="sw" style="background:#5FAEEC;"></span>贴合气流（仍有升力）</div>
+  <div class="li"><span class="sw" style="background:#F2915C;"></span>分离气流（升力已损失）</div>
+  <div class="note">气流粒子为示意，非 CFD 仿真计算结果</div>
+</div>
+
+<div class="aibadge">本视频含 AI 生成内容</div>
+<div class="foot">数据来源：MTU Aero Engines 技术科普 · 波音《Landing on slippery runways》技术简报</div>
+
+<script type="module">
+import * as THREE from 'three';
+
+const W = 1920, H = 1080;
+const canvas = document.getElementById('cv');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H, false);
+renderer.setClearColor(0x05090f, 1);
+
+// ---------- 场景 ----------
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x05090f, 0.0016);
+
+const camera = new THREE.PerspectiveCamera(34, W / H, 0.1, 6000);
+
+// 灯光
+scene.add(new THREE.AmbientLight(0x4a6580, 1.1));
+const key = new THREE.DirectionalLight(0xdfefff, 2.6);
+key.position.set(-260, 340, 420);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0x4fbfa4, 1.5);
+rim.position.set(320, -120, -300);
+scene.add(rim);
+const warm = new THREE.PointLight(0xf2915c, 1.2, 1600);
+warm.position.set(180, -60, 260);
+scene.add(warm);
+
+// ---------- 机身剖切组 ----------
+// 用半透明外壳 + 内部剖面，模拟截图里的"透明机壳"
+const plane = new THREE.Group();
+plane.scale.setScalar(0.42);   // 缩到适合取景的尺寸
+scene.add(plane);
+
+// 机身外筒（半透明）
+const fuseGeo = new THREE.CylinderGeometry(56, 52, 900, 64, 1, true, 0, Math.PI * 1.55);
+const fuseMat = new THREE.MeshPhysicalMaterial({
+  color: 0xbcd4e6, metalness: 0.15, roughness: 0.28,
+  transmission: 0.72, transparent: true, opacity: 0.5,
+  side: THREE.DoubleSide, clearcoat: 0.7, clearcoatRoughness: 0.3,
+});
+const fuse = new THREE.Mesh(fuseGeo, fuseMat);
+fuse.rotation.z = Math.PI / 2;
+fuse.position.set(0, 0, 0);
+plane.add(fuse);
+
+// 机身内壁（剖面感）
+const innerGeo = new THREE.CylinderGeometry(50, 46, 880, 48, 1, true, 0, Math.PI * 1.2);
+const innerMat = new THREE.MeshStandardMaterial({
+  color: 0x1b2c3e, metalness: 0.4, roughness: 0.55, side: THREE.DoubleSide,
+});
+const inner = new THREE.Mesh(innerGeo, innerMat);
+inner.rotation.z = Math.PI / 2;
+plane.add(inner);
+
+// 机翼（截面是薄楔形，用 BufferGeometry 手搓）
+function makeWing(span, chordRoot, chordTip, thick) {
+  const seg = 40;
+  const pos = [], idx = [], nrm = [];
+  for (let i = 0; i <= seg; i++) {
+    const t = i / seg;
+    const x = t * span;                       // 沿展向
+    const c = chordRoot + (chordTip - chordRoot) * t;
+    const th = thick * (1 - t * 0.65);
+    // 上表面 3 点 / 下表面 3 点，构成闭合翼型
+    const prof = [
+      [0, 0], [c * 0.18, th * 0.62], [c * 0.5, th], [c, th * 0.18],
+      [c, -th * 0.18], [c * 0.5, -th * 0.5], [c * 0.18, -th * 0.3],
+    ];
+    for (const [pz, py] of prof) {
+      pos.push(x, py, pz);
+    }
+  }
+  const P = 7;
+  for (let i = 0; i < seg; i++) {
+    for (let j = 0; j < P; j++) {
+      const a = i * P + j, b = i * P + ((j + 1) % P);
+      const c = (i + 1) * P + j, d = (i + 1) * P + ((j + 1) % P);
+      idx.push(a, c, b, b, c, d);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+
+const wingGeo = makeWing(560, 200, 92, 15);
+const wingMat = new THREE.MeshPhysicalMaterial({
+  color: 0xa8c8e0, metalness: 0.35, roughness: 0.35,
+  clearcoat: 0.6, side: THREE.DoubleSide,
+  transmission: 0.25, transparent: true, opacity: 0.92,
+});
+const wing = new THREE.Mesh(wingGeo, wingMat);
+wing.position.set(20, 0, 0);
+plane.add(wing);
+
+// 扰流板组（可动）
+const spoilerGroup = new THREE.Group();
+spoilerGroup.position.set(250, 11, 60);
+plane.add(spoilerGroup);
+for (let k = 0; k < 5; k++) {
+  const g = new THREE.BoxGeometry(78, 5, 30);
+  const m = new THREE.MeshPhysicalMaterial({
+    color: 0x7fd4c0, metalness: 0.5, roughness: 0.3,
+    emissive: 0x0d3b33, clearcoat: 0.8,
+  });
+  const s = new THREE.Mesh(g, m);
+  s.position.set(0, 0, k * 42);
+  s.userData.baseZ = k * 42;
+  spoilerGroup.add(s);
+}
+
+// 发动机短舱 + 风扇
+const nacelle = new THREE.Group();
+nacelle.position.set(180, -70, 60);
+plane.add(nacelle);
+const nacGeo = new THREE.CylinderGeometry(62, 50, 210, 40, 1, true);
+const nacMat = new THREE.MeshPhysicalMaterial({
+  color: 0x9fc0d8, metalness: 0.4, roughness: 0.3,
+  transmission: 0.55, transparent: true, opacity: 0.42, side: THREE.DoubleSide,
+});
+const nacMesh = new THREE.Mesh(nacGeo, nacMat);
+nacMesh.rotation.z = Math.PI / 2;
+nacelle.add(nacMesh);
+const fan = new THREE.Mesh(
+  new THREE.CylinderGeometry(40, 40, 8, 28),
+  new THREE.MeshStandardMaterial({ color: 0x6e9cc4, metalness: 0.85, roughness: 0.28 })
+);
+fan.rotation.z = Math.PI / 2;
+fan.position.x = -40;
+nacelle.add(fan);
+
+// 起落架 + 轮胎
+const gear = new THREE.Group();
+gear.position.set(230, -60, 0);
+plane.add(gear);
+const strut = new THREE.Mesh(
+  new THREE.CylinderGeometry(9, 9, 150, 16),
+  new THREE.MeshStandardMaterial({ color: 0xb9c9d6, metalness: 0.8, roughness: 0.35 })
+);
+strut.position.y = -75;
+gear.add(strut);
+for (const dz of [-38, 38]) {
+  const wheel = new THREE.Mesh(
+    new THREE.TorusGeometry(46, 17, 20, 40),
+    new THREE.MeshStandardMaterial({ color: 0x2a2f36, metalness: 0.3, roughness: 0.85 })
+  );
+  wheel.rotation.y = Math.PI / 2;
+  wheel.position.set(0, -150, dz);
+  gear.add(wheel);
+}
+
+// 跑道
+const runway = new THREE.Mesh(
+  new THREE.PlaneGeometry(3400, 900),
+  new THREE.MeshStandardMaterial({ color: 0x14181d, metalness: 0.1, roughness: 0.95 })
+);
+runway.rotation.x = -Math.PI / 2;
+runway.position.set(0, -228, 0);
+scene.add(runway);
+
+// ---------- 气流粒子 ----------
+const N_UP = 1700, N_SEP = 1000;
+function makeFlow(count, color, kind) {
+  const pos = new Float32Array(count * 3);
+  const seed = new Float32Array(count);
+  for (let i = 0; i < count; i++) {
+    const x = -700 + Math.random() * 1500;
+    const zi = Math.random();
+    let y, z;
+    if (kind === 'up') {
+      // 贴合上翼面
+      const t = Math.max(0, Math.min(1, (x - 20) / 560));
+      const c = 200 + (92 - 200) * t;
+      const th = 15 * (1 - t * 0.65);
+      z = -c * 0.15 + zi * c * 0.9;
+      y = th * 0.9 + 34 + Math.random() * 46 - (1 - t) * 20;
+    } else {
+      // 分离区：向后翻卷
+      z = -40 + zi * 300;
+      y = 10 + Math.random() * 40;
+    }
+    pos[i * 3] = x; pos[i * 3 + 1] = y; pos[i * 3 + 2] = z;
+    seed[i] = Math.random() * 100;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const m = new THREE.PointsMaterial({
+    color, size: 2.1, transparent: true, opacity: 0.55,
+    sizeAttenuation: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  });
+  return new THREE.Points(g, m);
+}
+const flowUp = makeFlow(N_UP, 0x5faeec, 'up');
+const flowSep = makeFlow(N_SEP, 0xf2915c, 'sep');
+scene.add(flowUp, flowSep);
+
+// ---------- 动画 ----------
+const D = 14;              // 帧时长
+let t = 0;
+const state = { lift: 1, camY: 40, camZ: 620, spoiler: 0 };
+
+function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+function update(f) {
+  // f: 0~1 帧内进度
+  const T = t + f;
+
+  // 相机缓慢环绕推进
+  // 自动取景：先算模型包围球，再按视场角定距离，保证任何时候都完整入画
+  if (!state.fitDone) {
+    const box = new THREE.Box3().setFromObject(plane);
+    const sph = box.getBoundingSphere(new THREE.Sphere());
+    state.center = sph.center.clone();
+    state.radius = sph.radius;
+    state.fitDone = true;
+  }
+  const fov = (camera.fov * Math.PI) / 180;
+  const need = state.radius / Math.sin(fov / 2) * 1.25;   // 1.25 留边
+  const orbit = -0.66 + T * 0.20;
+  const dist = need * (1.0 - T * 0.06);
+  const elev = 0.30 + Math.sin(T * 0.42) * 0.06;          // 俯视角
+  camera.position.set(
+    state.center.x + Math.sin(orbit) * Math.cos(elev) * dist,
+    state.center.y + Math.sin(elev) * dist,
+    state.center.z + Math.cos(orbit) * Math.cos(elev) * dist
+  );
+  camera.lookAt(state.center);
+
+  // 扰流板弹起（0.8s 起，0.9s 完成）
+  const sp = Math.max(0, Math.min(1, (T - 0.8) / 0.9));
+  state.spoiler = easeOut(sp) * 1.02;
+  spoilerGroup.children.forEach((s) => {
+    s.rotation.x = -state.spoiler;
+    s.position.y = Math.sin(state.spoiler) * 16;
+  });
+
+  // 气流：贴合流逐渐被"抬起+分离"
+  const sepT = Math.max(0, Math.min(1, (T - 1.0) / 1.2));
+  const sep = easeOut(sepT);
+  flowUp.material.opacity = 0.55 * (1 - sep * 0.7);
+  flowSep.material.opacity = 0.55 * sep;
+
+  // 粒子流动
+  const tArr = T * 0.9;
+  const pu = flowUp.geometry.attributes.position.array;
+  for (let i = 0; i < N_UP; i++) {
+    pu[i * 3] += 5.5;
+    if (pu[i * 3] > 800) pu[i * 3] -= 1500;
+  }
+  flowUp.geometry.attributes.position.needsUpdate = true;
+
+  const ps = flowSep.geometry.attributes.position.array;
+  for (let i = 0; i < N_SEP; i++) {
+    ps[i * 3] += 4.2;
+    ps[i * 3 + 1] += Math.sin(T * 2 + i) * 0.55 + 0.5;  // 翻卷上升
+    ps[i * 3 + 2] += Math.cos(T * 1.4 + i * 0.3) * 0.7;
+    if (ps[i * 3] > 800) {
+      ps[i * 3] -= 1500;
+      ps[i * 3 + 1] = 12 + Math.random() * 34;
+    }
+  }
+  flowSep.geometry.attributes.position.needsUpdate = true;
+
+  fan.rotation.x = T * 14;
+}
+
+let start = performance.now();
+function loop(now) {
+  const f = Math.min(1, ((now - start) % (D * 1000)) / (D * 1000));
+  update(f);
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+}
+update(0);
+renderer.render(scene, camera);
+requestAnimationFrame(loop);
+
+// 供 shot.mjs / render.mjs 逐帧定位
+window.__hf_seek = (sec) => {
+  t = sec;
+  start = performance.now() - sec * 1000;
+  const f = Math.max(0, Math.min(1, ((performance.now() - start) % (D * 1000)) / (D * 1000)));
+  update(0);
+  renderer.render(scene, camera);
+};
+window.__THREE_READY = true;
+window.__scene = scene;
+window.__THREE = THREE;
+window.__cam = camera;
+</script>
+</body>
+</html>

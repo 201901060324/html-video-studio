@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #16304a 0%, #0B1622 62%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:130px 120px; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag { display:inline-block; font-size:26px; letter-spacing:.22em; color:#7FA6CC;
+    border:1px solid rgba(127,166,204,.36); border-radius:999px; padding:12px 30px; margin-bottom:48px; }
+  h1 { font-size:100px; font-weight:600; color:#F4F8FC; letter-spacing:.02em; line-height:1.16; }
+  .sub { margin-top:32px; font-size:38px; color:#9BB4CC; font-weight:300; letter-spacing:.04em; }
+  .rule { margin-top:46px; height:3px; width:300px; background:#3E7FB8; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; }
+
+  .row { position:absolute; left:120px; right:120px; bottom:172px; display:flex; gap:40px; }
+  .cell { flex:1; padding:36px 38px 32px; border-radius:18px;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10); }
+  .cell .idx { display:inline-block; font-size:24px; font-weight:600; color:#0B1622;
+    border-radius:6px; padding:4px 12px; margin-bottom:20px; }
+  .cell .cn { font-size:34px; color:#FFFFFF; font-weight:500; margin-bottom:12px; }
+  .cell .cd { font-size:24px; color:#8497AC; line-height:1.5; }
+  .s .idx { background:#7FC6E8; } .r .idx { background:#F0C65E; } .b .idx { background:#F2915C; }
+
+  .foot { position:absolute; left:120px; bottom:74px; font-size:23px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">航空科普 · 落地之后</div>
+    <h1 class="a" style="animation-delay:.22s">飞机落地后<br>是怎么停下来的</h1>
+    <div class="sub a" style="animation-delay:.42s">不是一脚刹车，是三套系统接力</div>
+    <div class="rule" style="animation-delay:.6s"></div>
+  </div>
+
+  <div class="row">
+    <div class="cell s a" style="animation-delay:.8s">
+      <div class="idx">1</div>
+      <div class="cn">扰流板</div>
+      <div class="cd">接地瞬间弹起，<br>先把升力卸掉</div>
+    </div>
+    <div class="cell r a" style="animation-delay:.94s">
+      <div class="idx">2</div>
+      <div class="cn">发动机反推</div>
+      <div class="cd">气流折转 45°，<br>把 thrust 变成阻力</div>
+    </div>
+    <div class="cell b a" style="animation-delay:1.08s">
+      <div class="idx">3</div>
+      <div class="cn">机轮刹车</div>
+      <div class="cd">真正的主力，<br>低速段贡献 80–95%</div>
+    </div>
+  </div>
+
+  <div class="foot">典型窄体客机 · 空客A320neo · 最大着陆重量约 68 吨 · 着陆速度约 255 km/h</div>
+</div>
+</body>
+</html>

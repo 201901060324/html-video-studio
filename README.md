@@ -9,11 +9,34 @@
 html-video-studio/
 ├── demo/                  我实际跑通的最小链路
 │   ├── frames/            3 个自包含 HTML 帧（纯 CSS 动画，无 CDN 依赖）
+│   ├── frames-<主题>/     实战主题：每帧一个自包含 HTML + scenes.json
+│   │   ├── frames-pension/    养老分析（8 帧）
+│   │   ├── frames-landing/    飞机落地减速（10 帧）
+│   │   ├── frames-swearing/   中英脏话差异（7 帧，含合规处理）
+│   │   ├── frames-dsv41/      22 帧 + build.py 生成器 + 程序合成配乐
+│   │   ├── frames-cine/       镜头语言实验
+│   │   └── frames-3d-test/    three.js 3D 帧最小样例
+│   ├── tts/               旁白文案 + gen.py（合成语音、音频驱动帧长）
+│   ├── assets/three/      three.js 本地副本（3D 帧不依赖 CDN）
 │   ├── render.mjs         Chromium 录制 → webm → ffmpeg → mp4 → concat
+│   ├── shot.mjs / qc.mjs / measure.mjs …  抽帧验布局、质检、测溢出
 │   ├── out/demo.mp4       产物：13.1s / 1920x1080 / 30fps / H.264 / 485KB
 │   └── README.md          demo 的使用与排障
 └── html-video/            上游项目 nexu-io/html-video 的 clone（21 个官方模板，不入库）
 ```
+
+## 仓库存什么、不存什么
+
+**入库的是制作流程**：帧 HTML、`scenes.json` / `narration*.json`、渲染与质检脚本、
+生成器（`build.py` / `bgm.py` / `xfade.py` / `make_srt.py`）、文档。
+
+**不入库的是产物**：`out*/` 下的成片与分片、`voice/*.mp3`（TTS 输出）、
+`*.wav`（程序合成配乐）、`*.srt`、抽帧截图、`webm`。
+这些东西都能由源码重跑得到，且单条成片就有几十 MB。
+唯一入库的样例是 `demo/out/demo.mp4`，供人先看效果再决定要不要读代码。
+
+`demo/frames-*/_removed/` 也不入库：里面是涉及「谐音替身 / 哔声」等规避手法的废弃帧，
+只留本地做记录。
 
 ## 上游项目
 

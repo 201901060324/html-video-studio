@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 75% 0%, #3a1c10 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:100px 120px 100px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes squeeze { from { transform:translateX(0); } to { transform:translateX(13px); } }
+  @keyframes heat { from { opacity:.25; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:24px; letter-spacing:.22em; color:#F0A88E;
+    border:1px solid rgba(240,168,142,.4); border-radius:999px; padding:10px 26px; margin-bottom:22px; }
+  h1 { font-size:54px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:24px; height:3px; width:260px; background:#E2713C; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .main { margin-top:26px; display:flex; gap:48px; align-items:stretch; }
+  .diagram { flex:none; width:800px; position:relative;
+    background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.09); border-radius:22px; padding:26px 34px; }
+  .dgT { font-size:24px; color:#8C9EAF; letter-spacing:.06em; }
+  svg { position:absolute; left:34px; top:66px; }
+
+  .side { flex:1; display:flex; flex-direction:column; gap:14px; }
+  .bx { padding:16px 24px; border-radius:16px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); }
+  .bx .t { font-size:24px; color:#A8BCCD; margin-bottom:10px; letter-spacing:.04em; }
+  .bx .n { font-size:42px; font-weight:600; color:#F2915C; font-variant-numeric:tabular-nums; line-height:1.1; }
+  .bx .d { margin-top:6px; font-size:21px; color:#8497AC; line-height:1.4; }
+  .bx.o { background:rgba(242,145,92,.10); border-color:rgba(242,145,92,.30); }
+  .bx.o .t { color:#F0A88E; }
+  .bx.c { background:rgba(127,182,232,.10); border-color:rgba(127,182,232,.26); }
+  .bx.c .n { color:#8FC2EE; }
+
+  .heatrow { display:flex; gap:16px; }
+  .hc { flex:1; text-align:center; }
+  .hc .bar2 { height:72px; border-radius:12px; background:rgba(255,255,255,.05); position:relative;
+    overflow:hidden; border:1px solid rgba(255,255,255,.07); }
+  .hc .fl { position:absolute; left:0; right:0; bottom:0; border-radius:0 0 12px 12px; }
+  .hc .lb { margin-top:6px; font-size:20px; color:#8497AC; }
+  .hc .vv { margin-top:2px; font-size:20px; color:#FFFFFF; font-weight:600; }
+  .h1f .fl { background:linear-gradient(0deg,#3A5B7C,#6E9CC4); }
+  .h2f .fl { background:linear-gradient(0deg,#8A5A2E,#E0A050); }
+  .h3f .fl { background:linear-gradient(0deg,#A83A20,#F2915C); }
+
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">第 3 步 · 机轮刹车</div>
+    <h1 class="a" style="animation-delay:.2s">真正的主力<br>而且是热的问题</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="main">
+      <div class="diagram a" style="animation-delay:.56s">
+        <div class="dgT">多片盘式刹车 · 动盘压静盘</div>
+        <svg width="732" height="430" viewBox="0 0 788 480">
+          <!-- 静盘 -->
+          <g>
+            <rect x="180" y="60" width="26" height="340" rx="8" fill="#3A5B7C" stroke="#5E86AC" stroke-width="2.5"/>
+            <text x="130" y="46" fill="#7FA6CC" font-size="21">静盘</text>
+          </g>
+          <!-- 动盘 x4 -->
+          <g>
+            <rect x="238" y="60" width="22" height="340" rx="7" fill="#5E86AC" stroke="#8FC2EE" stroke-width="2"
+                  style="transform-origin:249px 230px; animation:squeeze .7s cubic-bezier(.3,1.2,.4,1) 1.0s both;"/>
+            <rect x="292" y="60" width="22" height="340" rx="7" fill="#5E86AC" stroke="#8FC2EE" stroke-width="2"
+                  style="transform-origin:303px 230px; animation:squeeze .7s cubic-bezier(.3,1.2,.4,1) 1.1s both;"/>
+            <rect x="346" y="60" width="22" height="340" rx="7" fill="#5E86AC" stroke="#8FC2EE" stroke-width="2"
+                  style="transform-origin:357px 230px; animation:squeeze .7s cubic-bezier(.3,1.2,.4,1) 1.2s both;"/>
+            <rect x="400" y="60" width="22" height="340" rx="7" fill="#5E86AC" stroke="#8FC2EE" stroke-width="2"
+                  style="transform-origin:411px 230px; animation:squeeze .7s cubic-bezier(.3,1.2,.4,1) 1.3s both;"/>
+            <text x="240" y="428" fill="#7FA6CC" font-size="21">4 片动盘</text>
+          </g>
+          <!-- 右侧静盘 -->
+          <rect x="466" y="60" width="26" height="340" rx="8" fill="#3A5B7C" stroke="#5E86AC" stroke-width="2.5"/>
+          <!-- 液压缸 -->
+          <rect x="530" y="176" width="150" height="104" rx="16" fill="#2C4257" stroke="#5E86AC" stroke-width="2.5"/>
+          <text x="558" y="238" fill="#7FA6CC" font-size="22">液压缸</text>
+          <path d="M492 228 L526 228" stroke="#F2915C" stroke-width="7" stroke-linecap="round"/>
+          <polygon points="512,228 486,216 486,240" fill="#F2915C"/>
+
+          <!-- 摩擦发热 -->
+          <g opacity="0" style="animation:fadeIn .4s ease 1.45s both;">
+            <circle cx="240" cy="170" r="13" fill="#F2915C" style="animation:heat 1.1s ease-in-out 1.5s infinite alternate;"/>
+            <circle cx="294" cy="235" r="15" fill="#F2915C" style="animation:heat 1.1s ease-in-out 1.7s infinite alternate;"/>
+            <circle cx="348" cy="160" r="12" fill="#F2915C" style="animation:heat 1.1s ease-in-out 1.6s infinite alternate;"/>
+            <circle cx="402" cy="280" r="14" fill="#F2915C" style="animation:heat 1.1s ease-in-out 1.8s infinite alternate;"/>
+            <circle cx="248" cy="310" r="12" fill="#F2915C" style="animation:heat 1.1s ease-in-out 1.9s infinite alternate;"/>
+            <text x="524" y="330" fill="#F2915C" font-size="24" font-weight="600">动能 → 热</text>
+          </g>
+
+          <!-- 轮毂 -->
+          <g opacity=".85">
+            <line x1="180" y1="406" x2="700" y2="406" stroke="#4A6580" stroke-width="3"/>
+            <text x="606" y="392" fill="#5F738A" font-size="20">轮毂</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="side">
+        <div class="bx c a" style="animation-delay:.72s">
+          <div class="t">低速段的实际贡献</div>
+          <div class="n">80–95%</div>
+          <div class="d">低于 100 km/h 后，刹车几乎独自承担全部减速能力</div>
+        </div>
+
+        <div class="bx a" style="animation-delay:.96s">
+          <div class="t">为什么要用碳复合材料</div>
+          <div class="heatrow">
+            <div class="hc h1f">
+              <div class="bar2"><div class="fl" style="height:24%;"></div></div>
+              <div class="lb">冷态</div>
+              <div class="vv" style="color:#8FC2EE;">效率高</div>
+            </div>
+            <div class="hc h2f">
+              <div class="bar2"><div class="fl" style="height:58%;"></div></div>
+              <div class="lb">热态</div>
+              <div class="vv" style="color:#E0A050;">可接受</div>
+            </div>
+            <div class="hc h3f">
+              <div class="bar2"><div class="fl" style="height:92%;"></div></div>
+              <div class="lb">过热</div>
+              <div class="vv" style="color:#F2915C;">效率下降</div>
+            </div>
+          </div>
+          <div class="d" style="margin-top:12px;">碳-碳复合材料可承受数百摄氏度高温。不用铸铁，因为重量和热容都不够</div>
+        </div>
+
+        <div class="bx a" style="animation-delay:1.08s">
+          <div class="t">防滞系统（anti-skid）</div>
+          <div class="n" style="font-size:28px; line-height:1.4;">实时比对轮速与参考速度，一旦判定抱死立刻泄压</div>
+          <div class="d">BSCU 检测到抱死趋势的瞬间释放刹车压力并循环执行，这是刹车能"踩死"而不打滑的关键</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">数据来源：英国 AAIB 空客A320-211 调查报告 · MTU Aero Engines · 空客 BSCU 系统说明</div>
+  </div>
+</div>
+</body>
+</html>

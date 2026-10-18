@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>lookdev</title>
+<style>
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000}
+canvas{position:absolute;inset:0;width:1920px;height:1080px}
+</style></head>
+<body>
+<canvas id="art" width="1920" height="1080"></canvas>
+<script>
+const cv=document.getElementById('art'), g=cv.getContext('2d');
+const W=1920,H=1080,TAU=Math.PI*2;
+const cl=(v,a=0,b=1)=>v<a?a:(v>b?b:v);
+const lr=(a,b,t)=>a+(b-a)*t;
+const eo=t=>1-Math.pow(1-cl(t),3);
+const eio=t=>{t=cl(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+function mul32(s){s=s>>>0;return function(){s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
+
+const A_END=6.4, B_END=13.4;
+
+/* ═══════════════ A · 纸本水墨 ═══════════════ */
+const FIBER=[];
+(function(){const R=mul32(11);
+  for(let i=0;i<1600;i++){
+    const x=R()*W,y=R()*H,a=R()*TAU,l=4+R()*22;
+    FIBER.push([x,y,Math.cos(a)*l,Math.sin(a)*l,0.02+R()*0.05]);
+  }
+})();
+const INKBLOB=[];
+(function(){const R=mul32(31);
+  for(let i=0;i<34;i++){
+    const a=R()*TAU, r=R()*R();
+    INKBLOB.push([Math.cos(a)*r*250,Math.sin(a)*r*210,60+R()*180,R()*0.10]);
+  }
+})();
+function paper(){
+  g.fillStyle='#F2ECDF';g.fillRect(0,0,W,H);
+  // 纸纤维
+  g.save();g.lineWidth=1;
+  for(let i=0;i<FIBER.length;i++){
+    const f=FIBER[i];
+    g.strokeStyle='rgba(120,104,80,'+f[4].toFixed(3)+')';
+    g.beginPath();g.moveTo(f[0],f[1]);g.lineTo(f[0]+f[2],f[1]+f[3]);g.stroke();
+  }
+  // 纸的色斑
+  const R=mul32(5);
+  for(let i=0;i<26;i++){
+    const x=R()*W,y=R()*H,r=90+R()*260;
+    const gr=g.createRadialGradient(x,y,0,x,y,r);
+    gr.addColorStop(0,'rgba(196,178,146,0.10)');gr.addColorStop(1,'rgba(196,178,146,0)');
+    g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,TAU);g.fill();
+  }
+  g.restore();
+}
+function segA(t){
+  paper();
+  const rev=eio(cl((t-0.9)/3.4));       // 从左往右"画"出来
+  const hz=(x,ly)=>ly+Math.sin(x*0.0017+ly)*96+Math.sin(x*0.0043+ly*2.1)*44+Math.sin(x*0.011+ly*3.3)*16;
+
+  g.save();
+  const CLIP_W=W*rev;
+  g.beginPath();g.rect(0,0,CLIP_W,H);g.clip();
+
+  // 远山（淡）
+  g.save();g.globalCompositeOperation='multiply';
+  let gr=g.createLinearGradient(0,470,0,700);
+  gr.addColorStop(0,'rgba(60,54,44,0.20)');
+  gr.addColorStop(1,'rgba(60,54,44,0)');
+  g.fillStyle=gr;
+  g.beginPath();g.moveTo(-20,1080);
+  for(let x=-20;x<=W+20;x+=10) g.lineTo(x,hz(x,592)-40);
+  g.lineTo(W+20,1080);g.closePath();g.fill();
+  g.restore();
+
+  // 主山：浓墨，边缘留雾气
+  g.save();g.globalCompositeOperation='multiply';
+  gr=g.createLinearGradient(0,620,0,1080);
+  gr.addColorStop(0,'rgba(26,22,16,0.82)');
+  gr.addColorStop(0.45,'rgba(24,20,15,0.62)');
+  gr.addColorStop(1,'rgba(20,17,12,0.30)');
+  g.fillStyle=gr;
+  g.beginPath();g.moveTo(-20,1080);
+  for(let x=-20;x<=W+20;x+=8) g.lineTo(x,hz(x,742));
+  g.lineTo(W+20,1080);g.closePath();g.fill();
+  // 山脊的一线焦墨
+  g.globalAlpha=0.55;g.strokeStyle='rgba(18,15,11,1)';g.lineWidth=2.4;
+  g.beginPath();
+  for(let x=-20;x<=W+20;x+=8){const y=hz(x,742);x===-20?g.moveTo(x,y):g.lineTo(x,y);}
+  g.stroke();
+  g.restore();
+
+  // 云雾：把山脚化开
+  g.save();
+  for(let i=0;i<5;i++){
+    const y=770+i*46;
+    const mg=g.createLinearGradient(0,y-40,0,y+70);
+    mg.addColorStop(0,'rgba(242,236,223,0)');
+    mg.addColorStop(.5,'rgba(242,236,223,'+(0.30+i*0.10).toFixed(2)+')');
+    mg.addColorStop(1,'rgba(242,236,223,0)');
+    g.fillStyle=mg;g.fillRect(0,y-40,W,110);
+  }
+  g.restore();
+  g.restore();
+
+  // 揭幕边缘做羽化
+  if(rev<0.995){
+    const gm=g.createLinearGradient(CLIP_W-150,0,CLIP_W+4,0);
+    gm.addColorStop(0,'rgba(242,236,223,0)');
+    gm.addColorStop(1,'rgba(242,236,223,1)');
+    g.fillStyle=gm;g.fillRect(CLIP_W-150,0,W-CLIP_W+150,H);
+    g.fillStyle='#F2ECDF';g.fillRect(CLIP_W+4,0,W-CLIP_W,H);
+    const RF=mul32(11);g.lineWidth=1;
+    for(let i=0;i<520;i++){
+      const x=CLIP_W+4+RF()*(W-CLIP_W-4), y=RF()*H, a=RF()*TAU, l=4+RF()*20;
+      g.strokeStyle='rgba(120,104,80,'+(0.02+RF()*0.045).toFixed(3)+')';
+      g.beginPath();g.moveTo(x,y);g.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l);g.stroke();
+    }
+  }
+
+  // 朱砂日
+  const sa=eo(cl((t-2.2)/1.0));
+  if(sa>0.01){
+    g.save();g.globalAlpha=0.90*sa;g.fillStyle='#AE3A2C';
+    g.beginPath();g.arc(1392,268,62,0,TAU);g.fill();g.restore();
+  }
+
+  // 竖排字
+  const vt=eio(cl((t-2.6)/1.6));
+  if(vt>0.01){
+    const s2='未至之境';
+    g.save();g.fillStyle='#17130D';g.textAlign='center';
+    g.font='600 86px "Songti SC","STSong",serif';
+    for(let i=0;i<s2.length;i++){
+      const a=eo(cl((t-2.6-i*0.16)/0.9));
+      g.globalAlpha=a*vt;
+      g.fillText(s2[i],1668,196+i*104);
+    }
+    g.restore();
+  }
+
+  // 印章
+  const sp=eo(cl((t-4.2)/0.5));
+  if(sp>0.01){
+    const sc=lr(1.22,1,sp)*(1+0.012*Math.sin(t*22)*Math.exp(-(t-4.2)*7));
+    g.save();g.translate(300,806);g.rotate(-0.04);g.scale(sc,sc);g.globalAlpha=0.92*sp;
+    g.fillStyle='#A8342A';g.fillRect(-56,-56,112,112);
+    g.strokeStyle='rgba(242,236,223,0.85)';g.lineWidth=2;g.strokeRect(-44,-44,88,88);
+    g.fillStyle='#F2ECDF';g.font='600 34px "Songti SC",serif';g.textAlign='center';
+    g.fillText('深度',0,-6);g.fillText('求索',0,36);
+    g.restore();
+  }
+
+  const cap=eo(cl((t-3.2)/1.1));
+  if(cap>0.01){
+    g.save();g.globalAlpha=cap*0.72;g.fillStyle='#2A241B';
+    g.font='400 33px "Songti SC",serif';g.textAlign='left';
+    g.fillText('一句话，能走多远。',150,178);
+    g.restore();
+  }
+}
+
+/* ═══════════════ B · 琥珀胶片 ═══════════════ */
+const FOCAL=1500;
+let camB;
+const COLB=[];
+(function(){const R=mul32(404);
+  for(let i=0;i<90;i++){
+    const z=200+R()*4200, side=R()<0.5?-1:1;
+    COLB.push({x:side*(230+R()*760),z,w:26+R()*26,h:520+R()*420,d:R()<0.5?0:1});
+  }
+  COLB.sort((a,b)=>b.z-a.z);
+})();
+const DUST=[];
+(function(){const R=mul32(18);for(let i=0;i<320;i++)DUST.push({x:(R()-0.5)*3000,y:R()*1200,z:R()*4200,s:0.5+R()*2.2});})();
+function pB(x,y,z){
+  const dz=z-camB.z; if(dz<40) return null;
+  const f=FOCAL/dz;
+  return [W/2+(x-camB.x)*f, H/2-(y-camB.y)*f, f, dz];
+}
+function segB(t){
+  const u=(t-A_END)/(B_END-A_END);
+  camB={z:lr(-200,2100,eio(cl(u/1.05))), x:lr(-60,120,eio(u)), y:lr(300,268,eio(u))};
+  const wx=Math.sin(t*7.1)*1.4+Math.sin(t*3.3)*1.1;   // 片门晃动
+  const wy=Math.sin(t*5.7+1.2)*1.2+Math.sin(t*2.1)*0.9;
+  g.save();g.translate(wx,wy);
+
+  // 天空 / 逆光雾
+  let sky=g.createLinearGradient(0,0,0,H);
+  sky.addColorStop(0,'#3A1A08');
+  sky.addColorStop(.38,'#8C4A16');
+  sky.addColorStop(.55,'#D98A3C');
+  sky.addColorStop(.70,'#F2B96E');
+  sky.addColorStop(.85,'#7A3E14');
+  sky.addColorStop(1,'#1B0C04');
+  g.fillStyle=sky;g.fillRect(-20,-20,W+40,H+40);
+  // 太阳
+  const sp=pB(0,190,camB.z+4200)||[W/2,H/2];
+  let sg=g.createRadialGradient(sp[0],sp[1]-60,0,sp[0],sp[1]-60,860);
+  sg.addColorStop(0,'rgba(255,236,196,0.95)');
+  sg.addColorStop(.16,'rgba(255,196,120,0.55)');
+  sg.addColorStop(.5,'rgba(240,150,70,0.18)');
+  sg.addColorStop(1,'rgba(200,110,40,0)');
+  g.fillStyle=sg;g.fillRect(0,0,W,H);
+  // 地面
+  let gr=g.createLinearGradient(0,H*0.62,0,H);
+  gr.addColorStop(0,'rgba(120,62,22,0.0)');
+  gr.addColorStop(1,'rgba(26,12,4,0.95)');
+  g.fillStyle=gr;g.fillRect(0,H*0.62,W,H*0.38);
+
+  // 柱列：逆光剪影
+  for(let i=0;i<COLB.length;i++){
+    const c=COLB[i];
+    const a=pB(c.x-c.w,0,c.z), b=pB(c.x+c.w,0,c.z), tp=pB(c.x+c.w,c.h,c.z);
+    if(!a||!b||!tp) continue;
+    const haze=cl(c.z/5200);
+    const al=cl(1.15-c.z/5200);
+    g.save();g.globalAlpha=al*0.96;
+    g.fillStyle='rgba(24,11,4,1)';
+    g.beginPath();
+    g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);g.lineTo(tp[0],tp[1]);g.lineTo(tp[0]-(b[0]-a[0]),tp[1]);g.closePath();
+    g.fill();
+    // 逆光边缘
+    g.globalAlpha=al*0.55;g.strokeStyle='rgba(255,210,150,0.9)';g.lineWidth=1.6;
+    g.beginPath();g.moveTo(b[0],b[1]);g.lineTo(tp[0],tp[1]);g.stroke();
+    g.restore();
+  }
+  // 尘埃
+  g.save();g.globalCompositeOperation='lighter';
+  for(let i=0;i<DUST.length;i++){
+    const d=DUST[i], p=pB(d.x,d.y,d.z);
+    if(!p) continue;
+    const al=cl(0.55-(d.z-camB.z)/5200)*cl(p[2]*0.9);
+    if(al<0.02) continue;
+    g.globalAlpha=al;
+    g.fillStyle='rgba(255,222,170,1)';
+    const r=Math.max(1,d.s*p[2]*0.7);
+    g.beginPath();g.arc(p[0],p[1],r,0,TAU);g.fill();
+  }
+  g.restore();
+
+  // 光晕（halation）
+  g.save();g.globalCompositeOperation='screen';g.globalAlpha=0.30;
+  const fl=g.createLinearGradient(0,sp[1]-2,0,sp[1]+2);
+  g.fillStyle='rgba(255,190,120,0.9)';
+  g.fillRect(0,sp[1]-1.5,W,3);
+  g.restore();
+  g.restore();
+
+  // 字幕
+  const a1=eo(cl((t-A_END-0.5)/1.2));
+  if(a1>0.01){
+    g.save();g.globalAlpha=a1;
+    g.fillStyle='#F7E6CB';g.textAlign='left';
+    g.font='500 20px "SF Mono",Menlo,monospace';
+    g.fillText('O N E   S E N T E N C E',150,842);
+    g.font='600 116px "Songti SC","STSong",serif';
+    g.fillText('一句话',150,952);
+    g.restore();
+  }
+}
+
+/* ═══════════════ C · 建构主义 ═══════════════ */
+function halftone(x,y,w,h,step,col,alpha){
+  g.save();g.fillStyle=col;g.globalAlpha=alpha;
+  for(let yy=y;yy<y+h;yy+=step){
+    for(let xx=x;xx<x+w;xx+=step){
+      const d=Math.hypot(xx-x-w/2,yy-y-h/2)/(Math.max(w,h)*0.55);
+      const r=step*0.30*(1-d*0.85);
+      if(r>0.4){g.beginPath();g.arc(xx,yy,r,0,TAU);g.fill();}
+    }
+  }
+  g.restore();
+}
+function segC(t){
+  const u=t-B_END;
+  const beat=1.304;
+  const seg=Math.floor(u/beat);
+  const bu=u-seg*beat;
+  const kick=Math.exp(-bu*9);
+
+  if(seg===0){
+    g.fillStyle='#EDE6D6';g.fillRect(0,0,W,H);
+    // 黑块
+    g.fillStyle='#141210';g.fillRect(0,0,690,H);
+    // 红圆
+    g.save();g.translate(1420,330+Math.sin(u*3)*6);g.fillStyle='#C93A2B';
+    g.beginPath();g.arc(0,0,178*(1+0.03*kick),0,TAU);g.fill();g.restore();
+    halftone(960,700,420,300,17,'#141210',0.55);
+    // 斜红条
+    g.save();g.translate(1290,860);g.rotate(-0.30);g.fillStyle='#C93A2B';
+    g.fillRect(-520,-26,1040*(0.3+0.7*eo(cl(u/0.5))),52);g.restore();
+    // 字
+    g.save();g.translate(742,470);g.rotate(-0.055+0.01*Math.sin(u*2));
+    g.fillStyle='#141210';g.font='700 200px "Songti SC","STSong",serif';
+    g.fillText('一句话',0,0);g.restore();
+    g.save();g.fillStyle='#C93A2B';g.font='600 34px "SF Mono",Menlo,monospace';
+    g.fillText('LOOK 01 / PAPER', 1410, 950);g.restore();
+  }else if(seg===1){
+    g.fillStyle='#0E0D0C';g.fillRect(0,0,W,H);
+    // 竖线网格
+    g.strokeStyle='rgba(237,230,214,0.10)';g.lineWidth=1;
+    for(let x=120;x<W;x+=80){g.beginPath();g.moveTo(x,120);g.lineTo(x,960);g.stroke();}
+    // 红块
+    g.fillStyle='#C93A2B';g.fillRect(1180,0,740,H);
+    // 大字
+    g.save();g.fillStyle='#EDE6D6';g.font='700 210px "Songti SC",serif';
+    g.fillText('一座城',140,560+ (1-eo(cl(bu/0.4)))*20);g.restore();
+    g.save();g.fillStyle='#141210';g.font='700 92px "Songti SC",serif';
+    g.fillText('V4.1',1220,300);g.restore();
+    g.save();g.fillStyle='#EDE6D6';g.font='500 26px "SF Mono",Menlo,monospace';
+    g.fillText('LOOK 02 / CONSTRUCTIVISM',140,930);g.restore();
+  }else{
+    const z=1+0.03*eo(cl(bu/2.6));
+    g.save();g.translate(W/2,H/2);g.scale(z,z);g.translate(-W/2,-H/2);
+    g.fillStyle='#C93A2B';g.fillRect(0,0,W,H);
+    // 黑条
+    g.fillStyle='#141210';g.fillRect(0,760,W,320);
+    g.fillStyle='#EDE6D6';
+    g.font='700 148px -apple-system,"SF Pro Display",sans-serif';
+    g.fillText('V4.1-Flash-1017',118,300);
+    g.font='600 76px "Songti SC",serif';
+    g.fillText('探索未至之境',118,600);
+    g.fillStyle='#EDE6D6';g.font='500 24px "SF Mono",Menlo,monospace';
+    g.fillText('LOOK 03 / BRUTALIST',122,860);
+    g.save();g.fillStyle='#EDE6D6';g.font='500 22px "SF Mono",Menlo,monospace';
+    g.fillText('同一句文案 · 三种美术方向',122,912);g.restore();
+    g.restore();
+  }
+}
+
+/* ═══════════════ 渲染 ═══════════════ */
+let bloomCv,bloomG;
+(function(){bloomCv=document.createElement('canvas');bloomCv.width=480;bloomCv.height=270;bloomG=bloomCv.getContext('2d');})();
+function draw(t){
+  g.setTransform(1,0,0,1,0,0);
+  g.globalAlpha=1;g.globalCompositeOperation='source-over';g.filter='none';
+  if(t<A_END) segA(t);
+  else if(t<B_END) segB(t);
+  else segC(t);
+
+  // 只有暖调那段加光晕
+  if(t>=A_END&&t<B_END){
+    bloomG.clearRect(0,0,480,270);
+    bloomG.drawImage(cv,0,0,480,270);
+    g.save();g.globalCompositeOperation='lighter';g.globalAlpha=0.34;g.filter='blur(10px)';
+    g.drawImage(bloomCv,0,0,W,H);g.filter='none';g.restore();
+  }
+  // 角标
+  g.save();g.globalAlpha=t<A_END?0.34:0.30;
+  g.fillStyle=t<A_END?'#3A3226':'#F6E9D6';
+  g.font='500 18px "PingFang SC",sans-serif';g.textAlign='right';
+  g.fillText('本视频含 AI 生成内容',W-64,72);g.restore();
+}
+let SEEKING=false,ST=null;
+window.__hf_seek=function(t){SEEKING=true;try{draw(t)}catch(e){console.log('ERR',e.message)}};
+function loop(ts){if(SEEKING)return;if(ST==null)ST=ts;const t=(ts-ST)/1000;try{draw(t)}catch(e){}requestAnimationFrame(loop)}
+draw(0);requestAnimationFrame(loop);
+</script>
+</body></html>

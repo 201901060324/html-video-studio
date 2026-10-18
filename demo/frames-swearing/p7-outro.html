@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 20%, #1a3450 0%, #0B1622 64%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:112px 120px 74px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  h1 { font-size:76px; font-weight:600; color:#F4F8FC; line-height:1.2; }
+  h1 .hl { color:#F0C65E; }
+  .rule { margin-top:30px; height:3px; width:260px; background:#3E7FB8; transform-origin:left center; flex:none;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; }
+  .lede { margin-top:40px; font-size:33px; color:#A8BFD2; line-height:1.68; font-weight:300; }
+  .lede b { color:#E9F1F8; font-weight:500; }
+
+  .cards { margin-top:auto; display:flex; gap:34px; margin-bottom:34px; }
+  .cd { flex:1; border-radius:18px; padding:30px 34px 28px;
+    border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.04); }
+  .cd .ic { font-size:25px; color:#7FA6CC; letter-spacing:.14em; margin-bottom:16px; }
+  .cd .tt { font-size:31px; color:#F4F8FC; font-weight:500; margin-bottom:14px; }
+  .cd .dd { font-size:24px; color:#93A8BC; line-height:1.6; }
+  .cd.g .ic { color:#F0C65E; } .cd.b .ic { color:#5FAEEC; } .cd.o .ic { color:#F2915C; }
+
+  .foot { font-size:23px; color:#5F738A; letter-spacing:.05em; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <h1 class="a" style="animation-delay:.1s">脏话是语言的<span class="hl">化石层</span></h1>
+    <div class="rule" style="animation-delay:.3s"></div>
+    <div class="lede a" style="animation-delay:.45s">
+      一个文化真正害怕的东西，不会写在它的礼仪手册里，而会写在它<b>最不允许说出口的那几个词</b>里。<br>
+      英语骂到神和身体，中文骂到祖宗和血缘 —— 这两套禁忌，分别对应着两种社会最早的组织方式。
+    </div>
+
+    <div class="cards">
+      <div class="cd g a" style="animation-delay:.62s">
+        <div class="ic">英语</div>
+        <div class="tt">敬畏一个更高的存在</div>
+        <div class="dd">所以最重的词，是把神名、罚入地狱、肉身羞耻摆到嘴边</div>
+      </div>
+      <div class="cd o a" style="animation-delay:.74s">
+        <div class="ic">中文</div>
+        <div class="tt">依赖一条延续的血脉</div>
+        <div class="dd">所以最重的词，是把长辈、香火、出身拉进冲突里</div>
+      </div>
+      <div class="cd b a" style="animation-delay:.86s">
+        <div class="ic">共同的</div>
+        <div class="tt">都在标出不能碰的边界</div>
+        <div class="dd">骂人方式不同，但功能一致：用越界来确认边界的形状</div>
+      </div>
+    </div>
+
+    <div class="foot a" style="animation-delay:1s">
+      本片为语言学与传播现象科普 · 不针对任何群体 · 全部敏感形式已作遮蔽与消音处理<br>
+      画面与配音由 AI 生成 · 仅供语言文化研究参考
+    </div>
+  </div>
+</div>
+</body>
+</html>

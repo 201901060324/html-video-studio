@@ -1,0 +1,52 @@
+[
+  {
+    "file": "p1-cover.html",
+    "seconds": 21.35,
+    "audio": "voice/p1.mp3"
+  },
+  {
+    "file": "p2-split.html",
+    "seconds": 26.34,
+    "audio": "voice/p2.mp3"
+  },
+  {
+    "file": "p3-spoiler.html",
+    "seconds": 34.19,
+    "audio": "voice/p3.mp3"
+  },
+  {
+    "file": "p4-reverse.html",
+    "seconds": 36.52,
+    "audio": "voice/p4.mp3"
+  },
+  {
+    "file": "p5-wheelbrake.html",
+    "seconds": 39.18,
+    "audio": "voice/p5.mp3"
+  },
+  {
+    "file": "p6-handoff.html",
+    "seconds": 43.55,
+    "audio": "voice/p6.mp3"
+  },
+  {
+    "file": "p7-prelanding.html",
+    "seconds": 32.36,
+    "audio": "voice/p7.mp3"
+  },
+  {
+    "file": "p8-wet.html",
+    "seconds": 34.12,
+    "audio": "voice/p8.mp3"
+  },
+  {
+    "file": "p9-temperature.html",
+    "seconds": 40.38,
+    "audio": "voice/p9.mp3"
+  },
+  {
+    "file": "p10-summary.html",
+    "seconds": 41.24,
+    "audio": "voice/p10.mp3"
+  }
+]

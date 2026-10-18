@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 25% 0%, #123040 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:100px 120px 100px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes wipe { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0 0 0 0); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:25px; letter-spacing:.22em; color:#7FC6E8;
+    border:1px solid rgba(127,198,232,.4); border-radius:999px; padding:11px 28px; margin-bottom:26px; }
+  h1 { font-size:62px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:24px; height:3px; width:260px; background:#4E90CC; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .chart { margin-top:28px; position:relative; height:340px; flex:none; border-radius:22px;
+    background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.09); }
+  svg.chartSvg { position:absolute; left:40px; top:22px; }
+  .phase { position:absolute; top:18px; font-size:22px; color:#8C9EAF; letter-spacing:.06em; }
+  .ph1 { left:40px; } .ph2 { left:560px; } .ph3 { left:1180px; }
+
+  .sum { margin-top:auto; display:flex; gap:34px; flex:none; }
+  .bx { flex:1; padding:18px 28px; border-radius:18px; background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.09); }
+  .bx .t { font-size:24px; color:#A8BCCD; margin-bottom:10px; letter-spacing:.04em; }
+  .bx .n { font-size:30px; font-weight:600; color:#8FC2EE; font-variant-numeric:tabular-nums; line-height:1.25; }
+  .bx .d { margin-top:6px; font-size:21px; color:#8497AC; line-height:1.4; }
+  .bx.o .n { color:#F0C65E; }
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">被忽略的一步</div>
+    <h1 class="a" style="animation-delay:.2s">飞机在接地前<br>就已经在减速了</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="chart a" style="animation-delay:.56s">
+      <div class="phase ph1">进近段</div>
+      <div class="phase ph2">拉平</div>
+      <div class="phase ph3">滑跑</div>
+      <svg class="chartSvg" width="1780" height="310" viewBox="0 0 1840 424">
+        <!-- 网格 -->
+        <g stroke="rgba(255,255,255,.07)" stroke-width="1">
+          <line x1="0" y1="80" x2="1840" y2="80"/><line x1="0" y1="160" x2="1840" y2="160"/>
+          <line x1="0" y1="240" x2="1840" y2="240"/>
+        </g>
+        <line x1="0" y1="330" x2="1840" y2="330" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+        <g fill="#5F738A" font-size="21" text-anchor="middle">
+          <text x="0" y="366">280</text><text x="560" y="366">240</text><text x="1180" y="366">200</text><text x="1832" y="366">0 km/h</text>
+        </g>
+
+        <!-- 三阶段阴影 -->
+        <rect x="0" y="0" width="560" height="330" fill="#7FC6E8" opacity=".05"/>
+        <rect x="560" y="0" width="340" height="330" fill="#F0C65E" opacity=".05"/>
+        <rect x="900" y="0" width="940" height="330" fill="#F2915C" opacity=".05"/>
+
+        <!-- 速度曲线 -->
+        <path d="M0 66 L180 92 L360 122 L520 150 L560 168 L620 196 L700 236 L790 268
+                 L900 292 L1050 312 L1220 322 L1420 326 L1620 328 L1840 330"
+              fill="none" stroke="#7FC6E8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+              style="clip-path:inset(0 100% 0 0); animation:wipe 1.3s ease .85s forwards;"/>
+        <!-- 接地点 -->
+        <g opacity="0" style="animation:fadeIn .4s ease 1.7s both;">
+          <line x1="900" y1="52" x2="900" y2="330" stroke="#F2915C" stroke-width="2.5" stroke-dasharray="9 7"/>
+          <circle cx="900" cy="292" r="10" fill="#F2915C"/>
+          <text x="848" y="42" fill="#F2915C" font-size="24" font-weight="600">接地</text>
+          <text x="880" y="66" fill="#F0C65E" font-size="22" text-anchor="end">← 进近已放减速板 + 收油门</text>
+        </g>
+        <!-- 高度标注 -->
+        <g font-size="21">
+          <text x="30" y="112" fill="#7FA6CC">1500 m</text>
+          <text x="30" y="192" fill="#7FA6CC">1000 m</text>
+          <text x="30" y="272" fill="#7FA6CC">500 m</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="sum">
+      <div class="bx a" style="animation-delay:1.9s">
+        <div class="t">进近阶段就要做的事</div>
+        <div class="n">放减速板 · 收油门到慢车</div>
+        <div class="d">不是等接地才想办法减速度。目标是把接地速度压到 255 km/h 以内</div>
+      </div>
+      <div class="bx o a" style="animation-delay:2.02s">
+        <div class="t">重着陆的代价</div>
+        <div class="n">超速接地 = 刹车磨损成倍</div>
+        <div class="d">超出目标着陆速度，所需制动距离非线性增长，刹车温度也更高</div>
+      </div>
+      <div class="bx a" style="animation-delay:2.14s">
+        <div class="t">还有两个约束</div>
+        <div class="n">襟翼放到位 · 重量不能超限</div>
+        <div class="d">着陆重量直接决定刹车能量与所需跑道长度，出发前就算好</div>
+      </div>
+    </div>
+
+    <div class="foot">数据来源：空客A320neo 典型着陆速度约 255 km/h · MTU Aero Engines 技术科普</div>
+  </div>
+</div>
+</body>
+</html>

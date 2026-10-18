@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 50% 0%, #0f2c3e 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .rain { position:absolute; inset:0; overflow:hidden; }
+  .rain i { position:absolute; top:-40px; width:2px; height:56px; border-radius:2px;
+    background:linear-gradient(180deg, rgba(143,194,238,0), rgba(143,194,238,.5));
+    animation:fall linear infinite; }
+  @keyframes fall { to { transform:translateY(1200px); } }
+  .wrap { position:absolute; inset:0; padding:102px 120px 128px; display:flex; flex-direction:column; z-index:2; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes barInX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#8FC2EE;
+    border:1px solid rgba(143,194,238,.4); border-radius:999px; padding:12px 30px; margin-bottom:34px; }
+  h1 { font-size:78px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:28px; height:3px; width:260px; background:#5FAEEC; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .cmp { margin-top:46px; display:flex; gap:40px; align-items:stretch; }
+  .col { flex:1; padding:30px 36px 28px; border-radius:20px; border:1px solid rgba(255,255,255,.10); }
+  .col.dry { background:rgba(240,198,94,.09); border-color:rgba(240,198,94,.28); }
+  .col.wet { background:rgba(143,194,238,.10); border-color:rgba(143,194,238,.30); }
+  .col .hd { display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .col .hd .nm { font-size:32px; font-weight:600; color:#FFFFFF; }
+  .col .hd .pc { font-size:24px; color:#8497AC; }
+  .col.dry .hd .pc { color:#E4C57E; } .col.wet .hd .pc { color:#8FC2EE; }
+  .col .sub { font-size:23px; color:#8497AC; margin-bottom:26px; line-height:1.5; }
+
+  .meter { height:56px; border-radius:10px; background:rgba(255,255,255,.05); position:relative;
+    overflow:hidden; border:1px solid rgba(255,255,255,.07); margin-bottom:24px; }
+  .meter .fi { position:absolute; left:0; top:0; bottom:0; border-radius:10px; transform-origin:left center; transform:scaleX(0); }
+  .dry .meter .fi { background:linear-gradient(90deg,#F5CE7E,#DFA93F); width:100%; }
+  .wet .meter .fi { background:linear-gradient(90deg,#8FC2EE,#4E90CC); width:65%; }
+  .meter .lb { position:absolute; left:18px; top:50%; transform:translateY(-50%);
+    font-size:24px; color:#0B1622; font-weight:600; }
+
+  .li { display:flex; align-items:baseline; gap:14px; margin-bottom:15px; }
+  .li:last-child { margin-bottom:0; }
+  .li .dot { flex:none; width:11px; height:11px; border-radius:50%; }
+  .dry .li .dot { background:#E0A93F; } .wet .li .dot { background:#5FAEEC; }
+  .li .tx { font-size:25px; color:#C6D5E2; line-height:1.45; }
+  .li .tx b { color:#FFFFFF; font-weight:600; }
+
+  .alert { margin-top:auto; display:flex; align-items:center; gap:28px; padding:26px 36px;
+    border-radius:18px; background:rgba(242,145,92,.12); border:1px solid rgba(242,145,92,.34); }
+  .alert .no { flex:none; font-size:26px; font-weight:600; color:#0B1622; background:#F2915C;
+    border-radius:8px; padding:10px 20px; }
+  .alert .tx { font-size:27px; color:#F5D9C6; line-height:1.5; }
+  .alert .tx b { color:#F2915C; font-weight:600; }
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="rain" id="rain"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">极端场景</div>
+    <h1 class="a" style="animation-delay:.2s">雨天的跑道，刹不住怎么办</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="cmp">
+      <div class="col dry a" style="animation-delay:.56s">
+        <div class="hd"><span class="nm">干跑道</span><span class="pc">基准 100%</span></div>
+        <div class="sub">摩擦系数高，三套系统都工作在额定状态</div>
+        <div class="meter"><div class="fi" style="animation:barInX .9s cubic-bezier(.22,.9,.3,1) .8s forwards;"></div>
+          <div class="lb" style="opacity:0; animation:rise .5s ease 1.4s forwards;">可用总减速能力</div></div>
+        <div class="li"><span class="dot"></span><span class="tx">总能力约 <b>0.5 g</b>，最大可用</span></div>
+        <div class="li"><span class="dot"></span><span class="tx">刹车承担 <b>45–65%</b>（高速段）</span></div>
+        <div class="li"><span class="dot"></span><span class="tx">标准参考距离，<b>基准值</b></span></div>
+      </div>
+
+      <div class="col wet a" style="animation-delay:.72s">
+        <div class="hd"><span class="nm">湿跑道</span><span class="pc">仅剩 50–80%</span></div>
+        <div class="sub">摩擦系数下降，刹车这一环被削弱，气动与反推的相对权重上升</div>
+        <div class="meter"><div class="fi" style="animation:barInX .9s cubic-bezier(.22,.9,.3,1) .95s forwards;"></div>
+          <div class="lb" style="opacity:0; animation:rise .5s ease 1.55s forwards;">刹车力被摩擦系数限住</div></div>
+        <div class="li"><span class="dot"></span><span class="tx">高速段气动+反推占比升到 <b>50–80%</b></span></div>
+        <div class="li"><span class="dot"></span><span class="tx">湿跑道上<b>不放扰流板</b>，再额外损失 <b>20–30%</b></span></div>
+        <div class="li"><span class="dot"></span><span class="tx">刹车与反推都不放开，停止距离约<b>干跑道的 2.5 倍</b></span></div>
+      </div>
+    </div>
+
+    <div class="alert a" style="animation-delay:1.1s">
+      <div class="no">因此</div>
+      <div class="tx">湿跑道着陆必须<b>提早放扰流板、尽早开反推</b>，不能像干跑道那样"到点再刹"。波音技术简报的原话是：<b>永远不要用最后一段跑道去赌一把重刹车</b>。</div>
+    </div>
+
+    <div class="foot">数据来源：波音《Landing on slippery runways》技术简报 · 北航《反推力装置对民航飞机减速性能影响》(2021)</div>
+  </div>
+</div>
+<script>
+  const rain = document.getElementById('rain');
+  for (let i = 0; i < 90; i++) {
+    const d = document.createElement('i');
+    d.style.left = Math.random() * 1920 + 'px';
+    d.style.animationDuration = (0.6 + Math.random() * 0.7) + 's';
+    d.style.animationDelay = (-Math.random() * 1.3) + 's';
+    d.style.opacity = 0.18 + Math.random() * 0.4;
+    rain.appendChild(d);
+  }
+</script>
+</body>
+</html>

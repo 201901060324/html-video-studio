@@ -163,6 +163,30 @@ await b.close();
 - 改 `scenes.json` 结构后检查 `loadScenes()` 的字段映射（曾把 `audio` 字段丢掉）。
 - 渲染耗时 ≈ 视频时长的 1.2–1.3 倍（M4 CPU，无 GPU），**必须 `run_in_background=true`**。
 
+## 质检 / 调试脚本
+
+出片之外的辅助脚本，都是独立小工具，不进渲染主链路：
+
+| 脚本 | 干什么 | 用法 |
+|---|---|---|
+| `shot.mjs` | 抽帧验布局（每帧截一张 PNG） | `FRAMES_DIR=frames-x node shot.mjs` |
+| `shots.mjs` | 单帧多时刻截图，看入场动画轨迹 | `node shots.mjs frames-x/p3.html 0.5 2 4` |
+| `qc.mjs` | 逐帧质检，把每帧拨到指定比例截图 | `node qc.mjs 0.5 p3` |
+| `shot3d.mjs` | 3D/WebGL 帧截图（等 `THREE_READY` 再截） | `FRAMES_DIR=frames-3d-test SCENES_FILE=... node shot3d.mjs` |
+| `measure.mjs` | 批量测每帧内容实际高度，找溢出 | `node measure.mjs frames-x` |
+| `err.mjs` | 单页跑几个时间点，收集 JS 报错 | `node err.mjs frames-x/p3.html` |
+| `bench.mjs` | 量单帧 seek 耗时，定位慢帧 | `node bench.mjs` |
+| `fix_overflow.py` | 按实测高度批量修溢出（一次性脚本，按需改） | `python3 fix_overflow.py` |
+
+**规矩：改完布局一定要先抽帧看图再全量渲染**，几秒成本能挡住重叠、溢出、字体 fallback 三类事故。
+
+## 仓库里存什么
+
+只存**制作流程**：帧 HTML、`scenes.json` / `narration*.json`、`.mjs` / `.py` 脚本、文档。
+成片（`out*/`）、分片、TTS 语音（`voice/*.mp3`）、程序合成 BGM（`*.wav`）、字幕（`*.srt`）、
+抽帧截图都不入库——它们都能用 `gen.py` + `render.mjs` 重跑出来。
+唯一例外是 `out/demo.mp4`，作为唯一入库的效果样例。
+
 ## 环境
 
 - ffmpeg 4.4：`/Users/songzhigui/.workbuddy/binaries/node/workspace/bin/ffmpeg`

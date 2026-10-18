@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>p06</title>
+<style>
+:root{
+  --ink:#EEF3FE; --dim:#8496B2; --blue:#4D6BFE; --cyan:#7FE6FF;
+  --mint:#5FE3BC; --amber:#FFB86B; --line:#25334B;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#04060C}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;
+}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden;isolation:isolate}
+.bg{position:absolute;inset:0;background:
+  radial-gradient(1300px 900px at 50% 44%,#0C1424 0%,#070B14 42%,#03050A 100%)}
+.grid{position:absolute;inset:0;opacity:.55;
+  background-image:
+    linear-gradient(to right,rgba(120,155,225,.055) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(120,155,225,.055) 1px,transparent 1px);
+  background-size:120px 120px;
+  -webkit-mask-image:radial-gradient(62% 58% at 50% 48%,#000 10%,transparent 92%)}
+canvas{position:absolute;inset:0;width:1920px;height:1080px;display:block}
+.vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(78% 66% at 50% 48%,transparent 42%,rgba(0,0,0,.62) 100%)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.hud-tl{position:absolute;left:120px;top:58px;font:500 19px/1 "SF Mono",Menlo,monospace;
+  letter-spacing:.30em;color:#54688A;z-index:9}
+.aibadge{position:absolute;right:56px;top:44px;z-index:9;
+  font:500 19px/1 -apple-system,"PingFang SC",sans-serif;color:rgba(226,235,250,.45);
+  padding:9px 15px;border:1px solid rgba(200,220,255,.14);border-radius:100px;letter-spacing:.05em}
+
+.sub{position:absolute;left:120px;bottom:74px;width:1420px;z-index:8}
+.idx{font:500 16px/1 "SF Mono",Menlo,monospace;color:#4C5F7E;letter-spacing:.22em;
+  margin-bottom:17px;display:flex;align-items:center;gap:14px}
+.idx:before{content:"";width:42px;height:1px;background:#2C3B54;display:block}
+.line{font-size:37px;line-height:1.58;color:#BCC9DF;font-weight:400;letter-spacing:.006em}
+.line b{color:#FFFFFF;font-weight:600}
+.line .em{color:var(--cyan);font-weight:600}
+.line .nm{font-family:"SF Mono",Menlo,monospace;font-size:33px;letter-spacing:0;color:#DCE7FF}
+
+.mega{position:absolute;z-index:7}
+.kicker{font:500 19px/1 "SF Mono",Menlo,monospace;letter-spacing:.34em;color:#5F7FBE;margin-bottom:30px}
+
+@keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes fl{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes sc{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+@keyframes ln{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes gl{from{opacity:.35}to{opacity:1}}
+.an{opacity:0;animation:fu 1.0s cubic-bezier(.16,.72,.2,1) forwards}
+.fi{opacity:0;animation:fi .9s ease forwards}
+.fl{opacity:0;animation:fl 1.0s cubic-bezier(.16,.72,.2,1) forwards}
+.sc{opacity:0;animation:sc 1.15s cubic-bezier(.16,.72,.2,1) forwards}
+
+.rail{position:absolute;left:120px;top:300px;z-index:8;display:flex;flex-direction:column;gap:20px}
+.rail div{font:500 17px/1 "SF Mono",Menlo,monospace;letter-spacing:.14em;color:#5B7BB4}
+</style></head>
+<body><div class="stage">
+<div class="bg"></div><div class="grid"></div>
+<canvas id="art" width="1920" height="1080"></canvas>
+<div class="vig"></div><div class="grain"></div>
+
+<div class="sub an" style="animation-delay:2.2s">
+  <div class="idx">06 / 22 &nbsp;·&nbsp; 构建 &nbsp;BUILD FROM ZERO</div>
+  <div class="line">一句话，<b>一座城。</b></div>
+</div>
+<div class="rail an" style="animation-delay:3.2s">
+  <div>01 &nbsp;台基 · PLATFORM</div>
+  <div>02 &nbsp;立柱 ×12 · COLONNADE</div>
+  <div>03 &nbsp;重檐 · DOUBLE EAVE</div>
+</div>
+
+<div class="hud-tl">DEEPSEEK · V4.1 FLASH</div>
+<div class="aibadge">本视频含 AI 生成内容</div>
+</div>
+<script>
+const cv=document.getElementById('art'),g=cv.getContext('2d');
+const W=1920,H=1080,TAU=Math.PI*2;
+const cl=(v,a,b)=>{a=a==null?0:a;b=b==null?1:b;return v<a?a:(v>b?b:v)};
+const lr=(a,b,t)=>a+(b-a)*t;
+const eo=t=>1-Math.pow(1-cl(t),3);
+const ei=t=>Math.pow(cl(t),3);
+const eio=t=>{t=cl(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const eb=t=>{t=cl(t);const c=1.9;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+function mul32(s){s=s>>>0;return function(){s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
+function C(){g.clearRect(0,0,W,H)}
+function ln(x1,y1,x2,y2,col,w,a,dash){
+  g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;g.strokeStyle=col;
+  g.lineWidth=w==null?1:w;g.lineCap='round';if(dash)g.setLineDash(dash);
+  g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();g.restore();
+}
+function d2(x,y,r,col,a){g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;
+  g.fillStyle=col;g.beginPath();g.arc(x,y,r,0,TAU);g.fill();g.restore();}
+function glow(x,y,r,col,a){g.save();g.globalCompositeOperation='lighter';
+  const gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,col);gr.addColorStop(1,'rgba(0,0,0,0)');
+  g.globalAlpha=a==null?1:a;g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,TAU);g.fill();g.restore();}
+function poly(pts,close){g.beginPath();for(let i=0;i<pts.length;i++){i?g.lineTo(pts[i][0],pts[i][1]):g.moveTo(pts[i][0],pts[i][1]);}if(close)g.closePath();}
+function stroke(col,w,a){g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;
+  g.strokeStyle=col;g.lineWidth=w==null?1:w;g.lineJoin='round';g.stroke();g.restore();}
+function proj(x,y,z,ry,rx,s,cx,cy){
+  const cz=Math.cos(ry),sz=Math.sin(ry);
+  const X=x*cz-z*sz, Z=x*sz+z*cz;
+  const cr=Math.cos(rx),sr=Math.sin(rx);
+  const Y=y*cr-Z*sr, Z2=y*sr+Z*cr;
+  const k=s/(1+Z2*0.00055);
+  return [cx+X*k,cy+Y*k,Z2];
+}
+const $=(id)=>document.getElementById(id);
+let SEEKING=false,ST=null;
+window.__hf_seek=function(t){SEEKING=true;try{draw(t)}catch(e){console.log('ERR',e.message)}};
+function loop(ts){if(SEEKING)return;if(ST==null)ST=ts;const t=(ts-ST)/1000;try{draw(t)}catch(e){}requestAnimationFrame(loop)}
+function autoRun(){
+  const m=/[#&]t=([0-9.]+)/.exec(location.hash);
+  if(m){SEEKING=true;draw(parseFloat(m[1]));seekCSS(parseFloat(m[1]));return}
+  draw(0);requestAnimationFrame(loop);
+}
+function seekCSS(t){
+  const a=document.getAnimations?document.getAnimations():[];
+  for(let i=0;i<a.length;i++){try{if(a[i].playState!=='paused')a[i].pause();a[i].currentTime=t*1000}catch(e){}}
+}
+
+const DUR=11;
+
+// 世界坐标：y 向下，屏幕 y = 540 + y
+const COLX=[];
+for(let c=0;c<12;c++)COLX.push(960+(c-5.5)*100);
+const BASE=260;       // screen 800
+const CTOP=-70;       // screen 470
+function draw(t){
+  C();
+  const ry=lr(0,-0.40,eio(cl((t-0.5)/7.6)));
+  const rx=lr(0.015,0.17,eio(cl((t-0.5)/7.6)));
+  const P=(x,y,z)=>proj(x,y,z,ry,rx,1,960,540);
+  const S=[];
+  function L3(a,b,w,al,col){
+    const p1=P(a[0],a[1],a[2]),p2=P(b[0],b[1],b[2]);
+    S.push([p1[0],p1[1],p2[0],p2[1],w,al,col||'rgba(135,180,255,1)']);
+  }
+  function curve(a,b,dip){
+    // 起翘的檐口：两端高、中间略沉
+    const pts=[];
+    const cx=(a[0]+b[0])/2, cy=(a[1]+b[1])/2+dip, cz=(a[2]+b[2])/2;
+    for(let i=0;i<=16;i++){
+      const u=i/16,mu=1-u;
+      pts.push([mu*mu*a[0]+2*mu*u*cx+u*u*b[0],
+                mu*mu*a[1]+2*mu*u*cy+u*u*b[1],
+                mu*mu*a[2]+2*mu*u*cz+u*u*b[2]]);
+    }
+    return pts;
+  }
+  function path3(pts,w,al){
+    for(let i=1;i<pts.length;i++)L3(pts[i-1],pts[i],w,al);
+  }
+  // ── 台基 ──
+  const tg=eo(cl((t-0.15)/1.3));
+  if(tg>0.01){
+    for(let ti=0;ti<3;ti++){
+      const hw=420-ti*34, hz=236+ti*22, yT=BASE+ti*26, yB=yT+26;
+      const q=[[-hw,yT,-hz],[hw,yT,-hz],[hw,yT,hz],[-hw,yT,hz]];
+      for(let i=0;i<4;i++){
+        const n=q[(i+1)%4];
+        L3(q[i],n,i<2?1.7:1.2,0.44*tg);
+        L3([q[i][0],yB,q[i][2]],[n[0],yB,n[2]],1,0.12*tg);
+        L3(q[i],[q[i][0],yB,q[i][2]],1,0.16*tg);
+      }
+    }
+  }
+  // ── 立柱 ×12（与 p05 完全对齐，开场即满高）──
+  for(let c=0;c<12;c++){
+    const x=COLX[c]-960;
+    L3([x,CTOP,-150],[x,BASE,-150],2.0,0.44);
+    L3([x,CTOP,150],[x,BASE,150],1.3,0.18);
+    const pt=P(x,CTOP,-150);
+    d2(pt[0],pt[1],2.3,'rgba(150,220,255,1)',0.5);
+  }
+  // 与 p05 结尾一致的柱顶横枋
+  L3([-550,CTOP,-150],[550,CTOP,-150],2.6,0.34);
+  L3([-550,CTOP-18,-150],[550,CTOP-18,-150],1.2,0.16);
+  // ── 下重檐（四坡裙檐）──
+  const e1=eo(cl((t-1.35)/1.8));
+  if(e1>0.01){
+    const yE=-96,W=378,Z=256,yU=-176,WU=252,ZU=170;
+    const ED=[
+      [[-W,yE,Z],[W,yE,Z],[-WU,yU,ZU],[WU,yU,ZU]],
+      [[W,yE,Z],[W,yE,-Z],[WU,yU,ZU],[WU,yU,-ZU]],
+      [[W,yE,-Z],[-W,yE,-Z],[WU,yU,-ZU],[-WU,yU,-ZU]],
+      [[-W,yE,-Z],[-W,yE,Z],[-WU,yU,-ZU],[-WU,yU,ZU]]
+    ];
+    for(let k=0;k<4;k++){
+      const e=ED[k];
+      const pts=curve(e[0],e[1],20);
+      path3(pts,k<2?2.1:1.5,0.55*e1);
+      // 瓦垄
+      const N=(k<2)?16:8;
+      for(let i=0;i<=N;i++){
+        const u=i/N,mu=1-u;
+        const ex=mu*mu*e[0][0]+2*mu*u*(e[0][0]+e[1][0])/2+u*u*e[1][0];
+        const ey=e[0][1]+Math.sin(u*Math.PI)*20;
+        const ez=mu*mu*e[0][2]+2*mu*u*(e[0][2]+e[1][2])/2+u*u*e[1][2];
+        const tx=mu*mu*e[2][0]+2*mu*u*(e[2][0]+e[3][0])/2+u*u*e[3][0];
+        const tz=mu*mu*e[2][2]+2*mu*u*(e[2][2]+e[3][2])/2+u*u*e[3][2];
+        if(i%(k<2?1:1)===0)L3([ex,ey,ez],[tx,yU,tz],1,0.11*e1);
+      }
+    }
+    // 上层墙身
+    L3([-WU,yU,ZU],[WU,yU,ZU],1.6,0.30*e1);
+    L3([-WU,yU,-ZU],[WU,yU,-ZU],1.2,0.18*e1);
+    L3([-WU,yU,-ZU],[-WU,yU,ZU],1.2,0.18*e1);
+    L3([WU,yU,-ZU],[WU,yU,ZU],1.2,0.18*e1);
+  }
+  // ── 上重檐（庑殿顶）──
+  const e2=eo(cl((t-2.7)/1.8));
+  if(e2>0.01){
+    const yE=-176,W=304,Z=212,yR=-254,WR=118;
+    const ED=[
+      [[-W,yE,Z],[W,yE,Z],0],
+      [[W,yE,Z],[W,yE,-Z],1],
+      [[W,yE,-Z],[-W,yE,-Z],2],
+      [[-W,yE,-Z],[-W,yE,Z],3]
+    ];
+    // 前坡填充
+    const fa=P(-W,yE,Z),fb=P(W,yE,Z),fc=P(WR,yR,0),fd=P(-WR,yR,0);
+    g.save();g.globalAlpha=.05*e2;g.fillStyle='rgba(120,180,255,1)';
+    g.beginPath();g.moveTo(fa[0],fa[1]);g.lineTo(fb[0],fb[1]);g.lineTo(fc[0],fc[1]);g.lineTo(fd[0],fd[1]);
+    g.closePath();g.fill();g.restore();
+    for(let k=0;k<4;k++){
+      const e=ED[k];
+      path3(curve(e[0],e[1],16),k<2?2.4:1.6,0.62*e2);
+      const N=18;
+      for(let i=0;i<=N;i++){
+        const u=i/N,mu=1-u;
+        const ex=mu*mu*e[0][0]+2*mu*u*(e[0][0]+e[1][0])/2+u*u*e[1][0];
+        const ey=e[0][1]+Math.sin(u*Math.PI)*16;
+        const ez=mu*mu*e[0][2]+2*mu*u*(e[0][2]+e[1][2])/2+u*u*e[1][2];
+        let tx,ty,tz;
+        if(k===0||k===2){tx=ex*WR/W;ty=yR;tz=0;}
+        else{tx=e[0][0]>0?WR:-WR;ty=yR;tz=0;}
+        L3([ex,ey,ez],[tx,ty,tz],1,k<2?0.14*e2:0.09*e2);
+      }
+    }
+    // 正脊
+    L3([-WR,yR,0],[WR,yR,0],3.0,0.72*e2);
+    L3([-WR,yR,0],[-WR,yR-18,0],1.6,0.5*e2);
+    L3([WR,yR,0],[WR,yR-18,0],1.6,0.5*e2);
+    // 檐角起翘的端点
+    [[-W,Z],[W,Z],[-W,-Z],[W,-Z]].forEach(function(c){
+      const pt=P(c[0],yE+16,c[1]);
+      glow(pt[0],pt[1],22,'rgba(150,220,255,0.28)',0.7*e2);
+    });
+  }
+  // 绘制
+  for(let i=0;i<S.length;i++){
+    const q=S[i];
+    ln(q[0],q[1],q[2],q[3],q[6],q[4],q[5]);
+  }
+  // 顶部光
+  const top=P(0,-272,0);
+  const ta=eo(cl((t-4.2)/1.8));
+  glow(top[0],top[1],190,'rgba(90,140,255,0.18)',ta*0.9);
+  d2(top[0],top[1],2.6,'rgba(195,225,255,1)',ta*.85);
+  // 扫描平面
+  const sp=cl((t-5.6)/4.2);
+  if(sp>0&&sp<1){
+    const yy=lr(-300,320,eo(sp));
+    const a=Math.sin(sp*Math.PI)*0.5;
+    const q0=P(-520,yy,300),q1=P(520,yy,300),q2=P(520,yy,-300),q3=P(-520,yy,-300);
+    g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a*0.45;
+    g.strokeStyle='rgba(120,220,255,1)';g.lineWidth=1.2;
+    g.beginPath();g.moveTo(q0[0],q0[1]);g.lineTo(q1[0],q1[1]);g.lineTo(q2[0],q2[1]);g.lineTo(q3[0],q3[1]);
+    g.closePath();g.stroke();g.restore();
+  }
+}
+
+autoRun();</script>
+</body></html>

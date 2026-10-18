@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 100% at 78% 100%, #1e3346 0%, #0B1622 64%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:104px 120px 70px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  h1 { font-size:64px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  h1 .hl { color:#F2915C; }
+  .rule { margin-top:22px; height:3px; width:230px; background:#3E7FB8; transform-origin:left center; flex:none;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; }
+
+  .grid2 { margin-top:50px; display:flex; gap:44px; }
+  .pan { flex:1; border-radius:20px; padding:36px 40px 34px;
+    border:1px solid rgba(255,255,255,.10); display:flex; flex-direction:column; }
+  .pan.en { background:rgba(95,174,236,.085); border-color:rgba(95,174,236,.26); }
+  .pan.cn { background:rgba(242,145,92,.085); border-color:rgba(242,145,92,.26); }
+  .pan .hd { font-size:33px; font-weight:600; margin-bottom:10px; }
+  .pan.en .hd { color:#8FC2EE; } .pan.cn .hd { color:#F6B183; }
+  .pan .sub2 { font-size:23px; color:#8497AC; margin-bottom:28px; }
+
+  .li { display:flex; gap:18px; margin-bottom:20px; }
+  .li .dot { flex:none; width:12px; height:12px; border-radius:50%; margin-top:13px; }
+  .pan.en .li .dot { background:#5FAEEC; } .pan.cn .li .dot { background:#F2915C; }
+  .li .tx { flex:1; font-size:26px; color:#C3D6E6; line-height:1.58; }
+  .li .tx b { color:#FFFFFF; font-weight:500; }
+
+  .sep { flex:none; width:1px; background:rgba(255,255,255,.09); margin:20px 0; }
+
+  .band { margin-top:auto; padding:26px 36px; border-radius:16px; background:rgba(240,198,94,.10);
+    border:1px solid rgba(240,198,94,.26); display:flex; align-items:center; gap:24px; }
+  .band .k { font-size:24px; letter-spacing:.14em; color:#F0C65E; flex:none;
+    border-right:1px solid rgba(240,198,94,.3); padding-right:22px; }
+  .band .v { font-size:29px; color:#F2E6C8; font-weight:500; line-height:1.45; }
+  .foot { margin-top:22px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <h1 class="a" style="animation-delay:.1s">差异四 · <span class="hl">社会功能</span>不一样</h1>
+    <div class="rule" style="animation-delay:.3s"></div>
+
+    <div class="grid2">
+      <div class="pan en a" style="animation-delay:.45s">
+        <div class="hd">英语：平级之间可以互骂</div>
+        <div class="sub2">核心机制 —— 关系足够近，才敢越界</div>
+        <div class="li"><div class="dot"></div><div class="tx">朋友之间张口就来，是<b>亲密度的证明</b>：我知道你不会生气</div></div>
+        <div class="li"><div class="dot"></div><div class="tx">语域可以随时切换，<b>越界本身就是"我在放松"的信号</b></div></div>
+        <div class="li"><div class="dot"></div><div class="tx">所以英语的脏话有<b>亲社会的一面</b>：它是社交润滑剂，不总是攻击</div></div>
+      </div>
+
+      <div class="pan cn a" style="animation-delay:.62s">
+        <div class="hd">中文：先看辈分，再决定能不能</div>
+        <div class="sub2">核心机制 —— 关系不对等，越界就是事故</div>
+        <div class="li"><div class="dot"></div><div class="tx">对长辈、上级、陌生人，<b>轻重等级层层不同</b></div></div>
+        <div class="li"><div class="dot"></div><div class="tx">同样是骂人，<b>骂回去的门槛高得多</b>，代价由辈分决定</div></div>
+        <div class="li"><div class="dot"></div><div class="tx">近些年同龄人之间也在松动，但<b>整体仍受尊卑秩序约束</b></div></div>
+      </div>
+    </div>
+
+    <div class="band a" style="animation-delay:.85s">
+      <div class="k">一句话</div>
+      <div class="v">英语的脏话管"关系远近"，中文的脏话管"位置高低" —— 一个测亲疏，一个测尊卑</div>
+    </div>
+    <div class="foot">此处为整体倾向的比较，个体与圈层差异很大，不代表所有使用者</div>
+  </div>
+</div>
+</body>
+</html>

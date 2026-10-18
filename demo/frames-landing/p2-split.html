@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 15% 0%, #3a2410 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:102px 120px 128px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes barIn { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#E4A87E;
+    border:1px solid rgba(228,168,126,.4); border-radius:999px; padding:12px 30px; margin-bottom:34px; }
+  h1 { font-size:78px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:28px; height:3px; width:260px; background:#E2915C; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .bars { margin-top:40px; }
+  .bar { display:flex; align-items:center; gap:32px; margin-bottom:18px; height:78px; }
+  .bar .nm { width:300px; font-size:30px; color:#E3EDF6; font-weight:500; flex:none; }
+  .bar .tr { flex:1; height:78px; border-radius:12px; background:rgba(255,255,255,.05);
+    position:relative; overflow:hidden; border:1px solid rgba(255,255,255,.07); }
+  .bar .fi { position:absolute; left:0; top:0; bottom:0; border-radius:12px; transform-origin:left center; transform:scaleX(0); }
+  .bar .vb { width:250px; flex:none; display:flex; align-items:baseline; gap:10px; }
+  .bar .vb .n { font-size:52px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums; }
+  .bar .vb .u { font-size:25px; color:#9BB4CC; }
+  .b1 .fi { background:linear-gradient(90deg,#F5A672,#E2713C); width:70%; }
+  .b2 .fi { background:linear-gradient(90deg,#F0CE7E,#DFA93F); width:20%; }
+  .b3 .fi { background:linear-gradient(90deg,#8FC2EE,#4E90CC); width:10%; min-width:12px; }
+  .note { margin-top:2px; margin-bottom:0; font-size:22px; color:#8C7F63; padding-left:332px; line-height:1.5; }
+
+  .cut { margin-top:auto; display:flex; gap:40px; align-items:stretch; }
+  .bx { flex:1; padding:24px 36px 22px; border-radius:20px; border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.035); }
+  .bx .t { font-size:25px; color:#A8BCCD; margin-bottom:10px; letter-spacing:.06em; }
+  .bx .n { font-size:50px; font-weight:600; color:#F2915C; font-variant-numeric:tabular-nums; line-height:1; }
+  .bx .d { margin-top:10px; font-size:23px; color:#8497AC; line-height:1.5; }
+  .bx.w { background:rgba(242,145,92,.10); border-color:rgba(242,145,92,.28); }
+  .bx.c { background:rgba(127,182,232,.10); border-color:rgba(127,182,232,.26); }
+  .bx.c .n { color:#8FC2EE; }
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">常见口径</div>
+    <h1 class="a" style="animation-delay:.2s">刹车只干了七成功劳</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="bars">
+      <div class="bar b1 a" style="animation-delay:.56s">
+        <div class="nm">机轮刹车</div>
+        <div class="tr"><div class="fi" style="animation:barIn .9s cubic-bezier(.22,.9,.3,1) .7s forwards"></div></div>
+        <div class="vb"><span class="n">≈70</span><span class="u">%</span></div>
+      </div>
+      <div class="bar b2 a" style="animation-delay:.68s">
+        <div class="nm">扰流板</div>
+        <div class="tr"><div class="fi" style="animation:barIn .8s cubic-bezier(.22,.9,.3,1) .84s forwards"></div></div>
+        <div class="vb"><span class="n">≈20</span><span class="u">%</span></div>
+      </div>
+      <div class="bar b3 a" style="animation-delay:.8s">
+        <div class="nm">发动机反推</div>
+        <div class="tr"><div class="fi" style="animation:barIn .8s cubic-bezier(.22,.9,.3,1) .98s forwards"></div></div>
+        <div class="vb"><span class="n">≈10</span><span class="u">%</span></div>
+      </div>
+      <div class="note a" style="animation-delay:1.1s">科普文献中的常见配比，实际数值随机型、跑道条件与刹车温度浮动<br>且后两者<b>只在高速滑跑段有效</b></div>
+    </div>
+
+    <div class="cut">
+      <div class="bx c a" style="animation-delay:1.24s">
+        <div class="t">速度高于</div>
+        <div class="n">100 km/h</div>
+        <div class="d">扰流板与反推持续出力，<br>和刹车一起顶</div>
+      </div>
+      <div class="bx w a" style="animation-delay:1.38s">
+        <div class="t">速度低于</div>
+        <div class="n">100 km/h</div>
+        <div class="d">气动减速几乎归零，<br>机轮刹车独自扛下全部</div>
+      </div>
+    </div>
+
+    <div class="foot">数据来源：山东航空学院航空科普基地 · 维罗纳/波音《湿跑道着陆》技术简报 · 空客A320 事故调查报告</div>
+  </div>
+</div>
+</body>
+</html>

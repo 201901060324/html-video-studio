@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>p09</title>
+<style>
+:root{
+  --ink:#EEF3FE; --dim:#8496B2; --blue:#4D6BFE; --cyan:#7FE6FF;
+  --mint:#5FE3BC; --amber:#FFB86B; --line:#25334B;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#04060C}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;
+}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden;isolation:isolate}
+.bg{position:absolute;inset:0;background:
+  radial-gradient(1300px 900px at 50% 44%,#0C1424 0%,#070B14 42%,#03050A 100%)}
+.grid{position:absolute;inset:0;opacity:.55;
+  background-image:
+    linear-gradient(to right,rgba(120,155,225,.055) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(120,155,225,.055) 1px,transparent 1px);
+  background-size:120px 120px;
+  -webkit-mask-image:radial-gradient(62% 58% at 50% 48%,#000 10%,transparent 92%)}
+canvas{position:absolute;inset:0;width:1920px;height:1080px;display:block}
+.vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(78% 66% at 50% 48%,transparent 42%,rgba(0,0,0,.62) 100%)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.hud-tl{position:absolute;left:120px;top:58px;font:500 19px/1 "SF Mono",Menlo,monospace;
+  letter-spacing:.30em;color:#54688A;z-index:9}
+.aibadge{position:absolute;right:56px;top:44px;z-index:9;
+  font:500 19px/1 -apple-system,"PingFang SC",sans-serif;color:rgba(226,235,250,.45);
+  padding:9px 15px;border:1px solid rgba(200,220,255,.14);border-radius:100px;letter-spacing:.05em}
+
+.sub{position:absolute;left:120px;bottom:74px;width:1420px;z-index:8}
+.idx{font:500 16px/1 "SF Mono",Menlo,monospace;color:#4C5F7E;letter-spacing:.22em;
+  margin-bottom:17px;display:flex;align-items:center;gap:14px}
+.idx:before{content:"";width:42px;height:1px;background:#2C3B54;display:block}
+.line{font-size:37px;line-height:1.58;color:#BCC9DF;font-weight:400;letter-spacing:.006em}
+.line b{color:#FFFFFF;font-weight:600}
+.line .em{color:var(--cyan);font-weight:600}
+.line .nm{font-family:"SF Mono",Menlo,monospace;font-size:33px;letter-spacing:0;color:#DCE7FF}
+
+.mega{position:absolute;z-index:7}
+.kicker{font:500 19px/1 "SF Mono",Menlo,monospace;letter-spacing:.34em;color:#5F7FBE;margin-bottom:30px}
+
+@keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes fl{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes sc{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+@keyframes ln{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes gl{from{opacity:.35}to{opacity:1}}
+.an{opacity:0;animation:fu 1.0s cubic-bezier(.16,.72,.2,1) forwards}
+.fi{opacity:0;animation:fi .9s ease forwards}
+.fl{opacity:0;animation:fl 1.0s cubic-bezier(.16,.72,.2,1) forwards}
+.sc{opacity:0;animation:sc 1.15s cubic-bezier(.16,.72,.2,1) forwards}
+
+.eras{position:absolute;left:150px;top:938px;width:1620px;display:flex;justify-content:space-between;
+  font:500 18px/1 "SF Mono",Menlo,monospace;color:#5C7BB2;letter-spacing:.10em;z-index:8}
+</style></head>
+<body><div class="stage">
+<div class="bg"></div><div class="grid"></div>
+<canvas id="art" width="1920" height="1080"></canvas>
+<div class="vig"></div><div class="grain"></div>
+
+<div class="sub an" style="animation-delay:2.8s;bottom:auto;top:168px">
+  <div class="idx">09 / 22 &nbsp;·&nbsp; 构建 &nbsp;BUILD FROM ZERO</div>
+  <div class="line">从史前到此刻，<b>一条山谷装下全部时间。</b></div>
+</div>
+<div class="eras" id="eras">
+  <span>史前</span><span>农耕</span><span>工业</span><span>电气</span><span>数字</span>
+</div>
+
+<div class="hud-tl">DEEPSEEK · V4.1 FLASH</div>
+<div class="aibadge">本视频含 AI 生成内容</div>
+</div>
+<script>
+const cv=document.getElementById('art'),g=cv.getContext('2d');
+const W=1920,H=1080,TAU=Math.PI*2;
+const cl=(v,a,b)=>{a=a==null?0:a;b=b==null?1:b;return v<a?a:(v>b?b:v)};
+const lr=(a,b,t)=>a+(b-a)*t;
+const eo=t=>1-Math.pow(1-cl(t),3);
+const ei=t=>Math.pow(cl(t),3);
+const eio=t=>{t=cl(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const eb=t=>{t=cl(t);const c=1.9;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+function mul32(s){s=s>>>0;return function(){s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
+function C(){g.clearRect(0,0,W,H)}
+function ln(x1,y1,x2,y2,col,w,a,dash){
+  g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;g.strokeStyle=col;
+  g.lineWidth=w==null?1:w;g.lineCap='round';if(dash)g.setLineDash(dash);
+  g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();g.restore();
+}
+function d2(x,y,r,col,a){g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;
+  g.fillStyle=col;g.beginPath();g.arc(x,y,r,0,TAU);g.fill();g.restore();}
+function glow(x,y,r,col,a){g.save();g.globalCompositeOperation='lighter';
+  const gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,col);gr.addColorStop(1,'rgba(0,0,0,0)');
+  g.globalAlpha=a==null?1:a;g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,TAU);g.fill();g.restore();}
+function poly(pts,close){g.beginPath();for(let i=0;i<pts.length;i++){i?g.lineTo(pts[i][0],pts[i][1]):g.moveTo(pts[i][0],pts[i][1]);}if(close)g.closePath();}
+function stroke(col,w,a){g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;
+  g.strokeStyle=col;g.lineWidth=w==null?1:w;g.lineJoin='round';g.stroke();g.restore();}
+function proj(x,y,z,ry,rx,s,cx,cy){
+  const cz=Math.cos(ry),sz=Math.sin(ry);
+  const X=x*cz-z*sz, Z=x*sz+z*cz;
+  const cr=Math.cos(rx),sr=Math.sin(rx);
+  const Y=y*cr-Z*sr, Z2=y*sr+Z*cr;
+  const k=s/(1+Z2*0.00055);
+  return [cx+X*k,cy+Y*k,Z2];
+}
+const $=(id)=>document.getElementById(id);
+let SEEKING=false,ST=null;
+window.__hf_seek=function(t){SEEKING=true;try{draw(t)}catch(e){console.log('ERR',e.message)}};
+function loop(ts){if(SEEKING)return;if(ST==null)ST=ts;const t=(ts-ST)/1000;try{draw(t)}catch(e){}requestAnimationFrame(loop)}
+function autoRun(){
+  const m=/[#&]t=([0-9.]+)/.exec(location.hash);
+  if(m){SEEKING=true;draw(parseFloat(m[1]));seekCSS(parseFloat(m[1]));return}
+  draw(0);requestAnimationFrame(loop);
+}
+function seekCSS(t){
+  const a=document.getAnimations?document.getAnimations():[];
+  for(let i=0;i<a.length;i++){try{if(a[i].playState!=='paused')a[i].pause();a[i].currentTime=t*1000}catch(e){}}
+}
+
+const DUR=10;
+
+const LAYERS=[
+  {y:600,amp:74,off:0.4,sp:7,col:'rgba(62,88,140,1)',al:0.55},
+  {y:690,amp:96,off:2.1,sp:13,col:'rgba(48,72,122,1)',al:0.75},
+  {y:790,amp:120,off:4.4,sp:22,col:'rgba(34,54,96,1)',al:0.95},
+  {y:900,amp:86,off:6.9,sp:34,col:'rgba(24,38,70,1)',al:1}
+];
+function ridge(L,t){
+  const pts=[];
+  for(let x=-60;x<=W+60;x+=14){
+    const xx=x-t*L.sp;
+    const y=L.y
+      +Math.sin(xx*0.0016+L.off)*L.amp
+      +Math.sin(xx*0.0043+L.off*2.3)*L.amp*0.42
+      +Math.sin(xx*0.0102+L.off*3.7)*L.amp*0.16;
+    pts.push([x,y]);
+  }
+  return pts;
+}
+const MARK=[0.16,0.33,0.52,0.71,0.89];
+function draw(t){
+  C();
+  const rev=eo(cl(t/2.2));
+  for(let i=0;i<LAYERS.length;i++){
+    const L=LAYERS[i];
+    const pts=ridge(L,t);
+    g.save();g.globalAlpha=L.al*rev;
+    g.beginPath();g.moveTo(pts[0][0],pts[0][1]);
+    for(let k=1;k<pts.length;k++)g.lineTo(pts[k][0],pts[k][1]);
+    g.lineTo(W+60,1080);g.lineTo(-60,1080);g.closePath();
+    const gr=g.createLinearGradient(0,L.y-L.amp,0,1080);
+    gr.addColorStop(0,L.col);gr.addColorStop(1,'rgba(6,10,18,1)');
+    g.fillStyle=gr;g.fill();g.restore();
+    // 山脊高光
+    g.save();g.globalCompositeOperation='lighter';g.globalAlpha=0.16*rev*(1-i*0.14);
+    g.strokeStyle='rgba(130,180,255,1)';g.lineWidth=1.2;
+    poly(pts);g.stroke();g.restore();
+  }
+  // 时间轴
+  const ax=eo(cl((t-0.9)/1.8));
+  const y0=914;
+  ln(150,y0,1770,y0,'rgba(120,165,240,1)',1,.22*ax);
+  const ph=lr(150,1770,eio(cl((t-1.9)/7.4)));
+  for(let i=0;i<MARK.length;i++){
+    const x=lr(150,1770,MARK[i]);
+    const on=ph>x-2;
+    ln(x,y0-9,x,y0+9,'rgba(150,195,255,1)',1.2,on?0.7:0.18*ax);
+    if(on){
+      const bp=cl((ph-x)/90);
+      d2(x,y0,3.4,'#BFE6FF',0.9);
+      ln(x,y0-14,x,y0-14-140*bp,'rgba(125,225,255,1)',1,.22*(1-bp));
+    }
+  }
+  // 播放头
+  if(t>1.9){
+    glow(ph,y0,140,'rgba(90,200,255,0.16)',.8);
+    d2(ph,y0,5,'#EAF7FF',1);
+    ln(ph,y0,ph,y0-260,'rgba(140,220,255,1)',1,.16);
+  }
+}
+
+autoRun();</script>
+</body></html>

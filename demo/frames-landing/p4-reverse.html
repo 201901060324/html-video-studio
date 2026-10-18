@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 20% 0%, #3a2f0c 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:100px 120px 100px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes drawFlow { from { stroke-dashoffset:340; } to { stroke-dashoffset:0; } }
+  @keyframes slideGate { from { transform:translateX(0); } to { transform:translateX(78px); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:25px; letter-spacing:.22em; color:#E4C57E;
+    border:1px solid rgba(228,197,126,.4); border-radius:999px; padding:11px 28px; margin-bottom:26px; }
+  h1 { font-size:72px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:24px; height:3px; width:260px; background:#E0BC62; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .main { margin-top:34px; display:flex; gap:52px; align-items:stretch; }
+  .diagram { flex:none; width:856px; position:relative;
+    background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.09); border-radius:22px; padding:28px 34px; }
+  .dgT { font-size:24px; color:#8C9EAF; letter-spacing:.06em; }
+  svg { position:absolute; left:34px; top:72px; }
+
+  .side { flex:1; display:flex; flex-direction:column; gap:14px; }
+  .row2 { display:flex; gap:18px; }
+  .bx { flex:1; padding:16px 24px; border-radius:16px; background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.09); }
+  .bx .t { font-size:24px; color:#A8BCCD; margin-bottom:10px; letter-spacing:.04em; }
+  .bx .n { font-size:46px; font-weight:600; color:#F2C55C; font-variant-numeric:tabular-nums; line-height:1; }
+  .bx .d { margin-top:6px; font-size:21px; color:#8497AC; line-height:1.4; }
+  .bx.y { background:rgba(240,198,94,.10); border-color:rgba(240,198,94,.30); }
+  .bx.y .t { color:#E4C57E; }
+  .bx.b { background:rgba(127,182,232,.10); border-color:rgba(127,182,232,.26); }
+  .bx.b .n { color:#8FC2EE; }
+
+  .ladder { padding:18px 26px; border-radius:18px; background:rgba(240,198,94,.08); border:1px solid rgba(240,198,94,.24); }
+  .ladder .h { font-size:24px; color:#E4C57E; margin-bottom:12px; letter-spacing:.06em; }
+  .rung { display:flex; align-items:center; gap:18px; margin-bottom:10px; }
+  .rung:last-child { margin-bottom:0; }
+  .rung .lb { width:150px; flex:none; font-size:23px; color:#8497AC; }
+  .rung .tr { flex:1; height:32px; border-radius:8px; background:rgba(255,255,255,.05); position:relative; overflow:hidden; }
+  .rung .fi { position:absolute; left:0; top:0; bottom:0; border-radius:8px; transform-origin:left center; transform:scaleX(0);
+    background:linear-gradient(90deg,#F5CE7E,#DFA93F); }
+  .rung .vv { width:96px; flex:none; font-size:25px; color:#F2C55C; font-weight:600; text-align:right; }
+
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">第 2 步 · 发动机反推</div>
+    <h1 class="a" style="animation-delay:.2s">把发动机变成刹车</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="main">
+      <div class="diagram a" style="animation-delay:.56s">
+        <div class="dgT">折流板打开 · 排气流偏转</div>
+        <svg width="788" height="440" viewBox="0 0 808 500">
+          <!-- 发动机外壳 -->
+          <rect x="150" y="150" width="470" height="200" rx="30" fill="#22384C" stroke="#4F7191" stroke-width="3"/>
+          <!-- 进气口 -->
+          <rect x="140" y="150" width="42" height="200" rx="12" fill="#3A5B7C" stroke="#5E86AC" stroke-width="3"/>
+          <text x="96" y="256" fill="#7FA6CC" font-size="21">进气</text>
+          <!-- 风扇 -->
+          <circle cx="230" cy="250" r="66" fill="none" stroke="#6E9CC4" stroke-width="3" stroke-dasharray="12 9"/>
+          <circle cx="230" cy="250" r="20" fill="#3A5B7C" stroke="#6E9CC4" stroke-width="2"/>
+          <text x="188" y="350" fill="#7FA6CC" font-size="21">风扇</text>
+          <!-- 核心/涡轮 -->
+          <rect x="330" y="212" width="120" height="76" rx="12" fill="#2C4257" stroke="#5E86AC" stroke-width="2.5"/>
+          <text x="342" y="312" fill="#7FA6CC" font-size="20">核心机</text>
+          <!-- 尾喷管 -->
+          <rect x="600" y="196" width="52" height="108" rx="14" fill="#3A5B7C" stroke="#5E86AC" stroke-width="2.5"/>
+
+          <!-- 巡航气流（虚线，向右） -->
+          <g opacity=".42">
+            <line x1="40" y1="206" x2="140" y2="206" stroke="#7FA6CC" stroke-width="4" stroke-dasharray="14 10"/>
+            <polygon points="152,206 134,196 134,216" fill="#7FA6CC"/>
+            <text x="40" y="188" fill="#7FA6CC" font-size="20">巡航：向后喷</text>
+          </g>
+
+          <!-- 折流板（斜板，45°） -->
+          <g style="transform-origin:620px 300px; animation:slideGate .8s cubic-bezier(.25,1.2,.4,1) .95s both;">
+            <polygon points="596,300 620,300 706,196 682,196" fill="#F0C65E" stroke="#FFE0A0" stroke-width="2.5"/>
+            <text x="640" y="352" fill="#F0C65E" font-size="21" text-anchor="middle" opacity="0"
+                  style="animation:fadeIn .5s ease 1.3s both;">折流板 45°</text>
+          </g>
+
+          <!-- 偏转气流：向外斜前 -->
+          <g opacity="0" style="animation:fadeIn .4s ease 1.15s both;">
+            <path d="M470 150 L560 96" stroke="#F2C55C" stroke-width="6" fill="none" stroke-linecap="round"
+                  stroke-dasharray="340" style="animation:drawFlow .8s ease 1.2s both;"/>
+            <polygon points="574,86 552,100 566,116" fill="#F2C55C"/>
+            <path d="M470 350 L560 404" stroke="#F2C55C" stroke-width="6" fill="none" stroke-linecap="round"
+                  stroke-dasharray="340" style="animation:drawFlow .8s ease 1.32s both;"/>
+            <polygon points="574,414 552,400 566,384" fill="#F2C55C"/>
+          </g>
+
+          <!-- 反推力箭头（指向前方 = 左） -->
+          <g opacity="0" style="animation:fadeIn .4s ease 1.5s both;">
+            <line x1="150" y1="452" x2="470" y2="452" stroke="#F2915C" stroke-width="7" stroke-linecap="round"/>
+            <polygon points="132,452 168,436 168,468" fill="#F2915C"/>
+            <text x="176" y="426" fill="#F2915C" font-size="24" font-weight="600">反向推力（朝机头方向）</text>
+            <text x="176" y="492" fill="#C97F4E" font-size="21">≈ 正推力的 40%</text>
+          </g>
+
+          <!-- 机身运动方向提示 -->
+          <g opacity=".55">
+            <line x1="40" y1="64" x2="250" y2="64" stroke="#8FC2EE" stroke-width="4" stroke-dasharray="14 10"/>
+            <polygon points="264,64 242,54 242,74" fill="#8FC2EE"/>
+            <text x="40" y="46" fill="#8FC2EE" font-size="20">飞机前进方向</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="side">
+        <div class="row2">
+          <div class="bx y a" style="animation-delay:.72s">
+            <div class="t">偏转的涵道流</div>
+            <div class="n">40%</div>
+            <div class="d">最多把风扇涵道流的四成导向前方</div>
+          </div>
+          <div class="bx b a" style="animation-delay:.84s">
+            <div class="t">维持时间</div>
+            <div class="n">5–10 s</div>
+            <div class="d">受噪声与异物吸入限制，不能一直开</div>
+          </div>
+        </div>
+
+        <div class="ladder a" style="animation-delay:.96s">
+          <div class="h">反推力度可无级调节</div>
+          <div class="rung">
+            <div class="lb">慢车反推</div>
+            <div class="tr"><div class="fi" style="width:22%; animation:barInX .8s cubic-bezier(.22,.9,.3,1) 1.15s forwards;"></div></div>
+            <div class="vv">22%</div>
+          </div>
+          <div class="rung">
+            <div class="lb">地面慢车</div>
+            <div class="tr"><div class="fi" style="width:48%; animation:barInX .8s cubic-bezier(.22,.9,.3,1) 1.3s forwards;"></div></div>
+            <div class="vv">48%</div>
+          </div>
+          <div class="rung">
+            <div class="lb">最大反推</div>
+            <div class="tr"><div class="fi" style="width:100%; animation:barInX .8s cubic-bezier(.22,.9,.3,1) 1.45s forwards;"></div></div>
+            <div class="vv">100%</div>
+          </div>
+          <div style="margin-top:18px; font-size:23px; color:#8C7F63; line-height:1.5;">
+            飞行员按剩余跑道长度选档，不是一次推到底
+          </div>
+        </div>
+
+        <div class="bx b a" style="animation-delay:1.1s">
+          <div class="t">为什么雨雪天特别重要</div>
+          <div class="n" style="font-size:30px; line-height:1.35;">刹车力被摩擦系数限死，反推几乎不受影响</div>
+          <div class="d">北航仿真研究：常规着陆下湿跑道使用反推，相对减速距离可缩短 41%、减速时间缩短 32%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">数据来源：MTU Aero Engines · 北京航空航天大学《反推力装置对民航飞机减速性能影响》(2021)</div>
+  </div>
+</div>
+<style>@keyframes barInX { from { transform:scaleX(0); } to { transform:scaleX(1); } }</style>
+</body>
+</html>

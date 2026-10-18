@@ -10,19 +10,28 @@ node_modules
 # 获取方式见 README「上游项目」一节
 html-video/
 
-# 渲染中间产物（分片、截图、ffmpeg 临时文件）
-demo/out/clips/
-demo/out/clip*.mp4
-demo/out/concat.txt
-demo/out/chk*.png
-demo/*/clips/
-demo/*/clip*.mp4
-demo/*/concat.txt
+# ---------------------------------------------------------------
+# 仓库只存「制作流程」：脚本 + 帧 HTML + 分镜/文案 JSON + 文档。
+# 一切渲染产物不入库，都能由源码重跑得到。
+# ---------------------------------------------------------------
 
-# 视频成品：仓库只留 demo/out/demo.mp4 作为效果样例
-# 完整成片本地保留，需要入库时用 git add -f 单独加
-demo/out-gator/*.mp4
-demo/out-pension/*.mp4
+# 渲染输出目录（分片、静帧、成片、缓存 meta）
+# demo/out/ 下 3 个早期 mp4 是历史 tracked 文件，忽略规则不追溯
+demo/out*/
+
+# 媒体产物：成片 / 中间片 / TTS 语音 / 程序合成 BGM / 字幕
+demo/**/*.mp4
+demo/**/*.webm
+demo/**/*.wav
+demo/**/*.mp3
+demo/**/*.m4a
+demo/**/*.srt
+
+# 抽帧验布局产生的截图
+demo/**/shot*.png
+
+# 合规相关的废弃帧：内容是「谐音替身 / 哔声」等规避手法，只留本地
+demo/**/_removed/
 
 # 依赖安装残留
 *.log

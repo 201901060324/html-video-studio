@@ -1,0 +1,37 @@
+[
+  {
+    "file": "p1-cover.html",
+    "seconds": 11.76,
+    "audio": "voice/p1.mp3"
+  },
+  {
+    "file": "p2-premise.html",
+    "seconds": 10.44,
+    "audio": "voice/p2.mp3"
+  },
+  {
+    "file": "p3-targets.html",
+    "seconds": 21.55,
+    "audio": "voice/p3.mp3"
+  },
+  {
+    "file": "p4-target-who.html",
+    "seconds": 21.6,
+    "audio": "voice/p4.mp3"
+  },
+  {
+    "file": "p5-grammar.html",
+    "seconds": 17.06,
+    "audio": "voice/p5.mp3"
+  },
+  {
+    "file": "p6-social.html",
+    "seconds": 20.28,
+    "audio": "voice/p6.mp3"
+  },
+  {
+    "file": "p7-outro.html",
+    "seconds": 20.54,
+    "audio": "voice/p7.mp3"
+  }
+]

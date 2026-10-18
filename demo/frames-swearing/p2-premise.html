@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 95% at 80% 0%, #1a2f45 0%, #0B1622 60%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:110px 120px 74px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#7FA6CC;
+    border:1px solid rgba(127,166,204,.36); border-radius:999px; padding:12px 30px; margin-bottom:38px; }
+  h1 { font-size:82px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  h1 .hl { color:#F0C65E; }
+  .rule { margin-top:30px; height:3px; width:260px; background:#3E7FB8; transform-origin:left center; flex:none;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; }
+
+  .cmp { margin-top:52px; display:flex; gap:48px; align-items:stretch; }
+  .col { flex:1; border-radius:20px; padding:38px 42px; border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.035); display:flex; flex-direction:column; }
+  .col.yes { background:rgba(95,174,236,.09); border-color:rgba(95,174,236,.26); }
+  .col.no  { background:rgba(242,145,92,.09); border-color:rgba(242,145,92,.26); }
+  .col .hd { font-size:30px; color:#C3D6E6; margin-bottom:26px; font-weight:500; }
+  .col .hd .mk { font-size:34px; margin-right:12px; }
+  .col.yes .hd .mk { color:#5FAEEC; } .col.no .hd .mk { color:#F2915C; }
+  .chips { display:flex; flex-wrap:wrap; gap:14px 14px; }
+  .chip { font-size:26px; padding:11px 24px; border-radius:10px;
+    background:rgba(255,255,255,.07); color:#E3EDF6; border:1px solid rgba(255,255,255,.10); }
+  .col.no .chip { color:#F6C9AE; border-color:rgba(242,145,92,.22); background:rgba(242,145,92,.10); }
+  .col .nt { margin-top:28px; font-size:24px; color:#8497AC; line-height:1.6; }
+
+  .band { margin-top:auto; margin-bottom:28px; display:flex; align-items:center; gap:22px;
+    padding:26px 36px; border-radius:16px; background:rgba(240,198,94,.10);
+    border:1px solid rgba(240,198,94,.26); }
+  .band .k { font-size:24px; letter-spacing:.14em; color:#F0C65E; flex:none;
+    border-right:1px solid rgba(240,198,94,.3); padding-right:22px; }
+  .band .v { font-size:32px; color:#F2E6C8; font-weight:500; }
+  .foot { font-size:23px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">前提</div>
+    <h1 class="a" style="animation-delay:.2s">语法可以借词，<span class="hl">禁忌不会</span></h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="cmp">
+      <div class="col yes a" style="animation-delay:.55s">
+        <div class="hd"><span class="mk">○</span>容易被借走的一层</div>
+        <div class="chips">
+          <div class="chip">沙发 sofa</div>
+          <div class="chip">咖啡 coffee</div>
+          <div class="chip">坦克 tank</div>
+          <div class="chip">引擎 engine</div>
+        </div>
+        <div class="nt">技术词、器物名、新鲜概念<br>跨语言流动几乎没有阻力</div>
+      </div>
+      <div class="col no a" style="animation-delay:.7s">
+        <div class="hd"><span class="mk">●</span>几乎不外借的一层</div>
+        <div class="chips">
+          <div class="chip">禁忌词</div>
+          <div class="chip">诅咒语</div>
+          <div class="chip">亵渎语</div>
+          <div class="chip">称呼件</div>
+        </div>
+        <div class="nt">每一种文化的脏话，都是本土禁忌的产物<br>借来的脏话，骂不动人</div>
+      </div>
+    </div>
+
+    <div class="band a" style="animation-delay:.95s">
+      <div class="k">结论</div>
+      <div class="v">每个文化的脏话，都精准指向它最不敢碰的那个东西</div>
+    </div>
+
+    <div class="foot">借词发生在词汇层，禁忌发生在文化层</div>
+  </div>
+</div>
+</body>
+</html>

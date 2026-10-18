@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden;
+    background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage {
+    width:1920px; height:1080px; position:relative;
+    background:radial-gradient(120% 90% at 50% 0%, #16304a 0%, #0B1622 62%);
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px;
+  }
+  .wrap { position:absolute; inset:0; padding:126px 120px 74px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  .tag {
+    display:inline-block; align-self:flex-start; font-size:26px; letter-spacing:.22em; color:#7FA6CC;
+    border:1px solid rgba(127,166,204,.36); border-radius:999px;
+    padding:12px 30px; margin-bottom:48px;
+  }
+  h1 {
+    font-size:100px; font-weight:600; color:#F4F8FC; letter-spacing:.02em; line-height:1.18;
+  }
+  h1 .hl { color:#F2915C; }
+  .sub { margin-top:32px; font-size:38px; color:#9BB4CC; font-weight:300; letter-spacing:.04em; }
+  .rule {
+    margin-top:46px; height:3px; width:300px; background:#3E7FB8; transform-origin:left center; flex:none;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards;
+  }
+
+  .row { margin-top:auto; display:flex; gap:44px; }
+  .cell {
+    flex:1; padding:36px 40px 32px; border-radius:18px;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10);
+  }
+  .cell .cn { font-size:27px; color:#9BB4CC; margin-bottom:20px; letter-spacing:.06em; }
+  .cell .cv { font-size:62px; font-weight:600; color:#FFFFFF; line-height:1.08; }
+  .cell .cd { margin-top:16px; font-size:23px; color:#8497AC; line-height:1.5; }
+  .k .cv { color:#F2915C; } .j .cv { color:#5FAEEC; } .c .cv { color:#F0C65E; }
+
+  .foot { margin-top:34px; font-size:23px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">语言学 · 禁忌研究</div>
+    <h1 class="a" style="animation-delay:.22s">英语骂人和中文骂人<br>骂的根本不是<span class="hl">同一样东西</span></h1>
+    <div class="sub a" style="animation-delay:.42s">从攻击靶点到社会功能，拆解两套禁忌系统</div>
+    <div class="rule" style="animation-delay:.6s"></div>
+
+    <div class="row">
+      <div class="cell k a" style="animation-delay:.78s">
+        <div class="cn">英语的靶点</div>
+        <div class="cv">神与身体</div>
+        <div class="cd">宗教禁忌的残留 + 肉身与排泄</div>
+      </div>
+      <div class="cell j a" style="animation-delay:.92s">
+        <div class="cn">中文的靶点</div>
+        <div class="cv">血缘与伦常</div>
+        <div class="cd">亲属称谓 + 出身与门第</div>
+      </div>
+      <div class="cell c a" style="animation-delay:1.06s">
+        <div class="cn">核心分野</div>
+        <div class="cv">词汇禁忌<br>vs 关系禁忌</div>
+        <div class="cd">一个脏在说出的那个词，一个脏在被破坏的那层关系</div>
+      </div>
+    </div>
+
+    <div class="foot">本片不含任何完整脏词 · 所有敏感词已作消音与遮蔽处理</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(140% 100% at 50% 100%, #17303f 0%, #0B1622 64%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:102px 120px 68px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  h1 { font-size:64px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  h1 .hl { color:#5FAEEC; }
+  .rule { margin-top:22px; height:3px; width:230px; background:#3E7FB8; transform-origin:left center; flex:none;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; }
+
+  .blk { margin-top:44px; }
+  .blk .tt { display:flex; align-items:center; gap:18px; margin-bottom:22px; }
+  .blk .tt .bd { font-size:24px; padding:7px 20px; border-radius:8px; letter-spacing:.06em; }
+  .blk.e .tt .bd { background:rgba(95,174,236,.16); color:#8FC2EE; border:1px solid rgba(95,174,236,.3); }
+  .blk.c .tt .bd { background:rgba(242,145,92,.16); color:#F6B183; border:1px solid rgba(242,145,92,.3); }
+  .blk .tt .nm { font-size:31px; color:#E3EDF6; font-weight:500; }
+
+  .demo { border-radius:18px; padding:30px 38px; border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.035); display:flex; align-items:center; gap:44px; }
+  .demo .fm { flex:none; font-size:46px; font-weight:600; letter-spacing:.02em;
+    font-family:"SF Mono", Menlo, Consolas, monospace; }
+  .demo .fm .hot { color:#F2915C; }
+  .demo .fm .dimmer { color:#6C8296; }
+  .blk.e .demo .fm .base { color:#E9F1F8; }
+  .demo .ex { flex:1; font-size:25px; color:#93A8BC; line-height:1.6; }
+  .demo .ex b { color:#C3D6E6; font-weight:500; }
+
+  .blk.c .demo .fm .base { color:#F7EDE4; }
+
+  .band { margin-top:auto; padding:26px 36px; border-radius:16px;
+    background:rgba(240,198,94,.10); border:1px solid rgba(240,198,94,.26);
+    display:flex; align-items:center; gap:24px; }
+  .band .k { font-size:24px; letter-spacing:.14em; color:#F0C65E; flex:none;
+    border-right:1px solid rgba(240,198,94,.3); padding-right:22px; }
+  .band .v { font-size:30px; color:#F2E6C8; font-weight:500; }
+  .foot { margin-top:22px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <h1 class="a" style="animation-delay:.1s">差异三 · 语法<span class="hl">形态</span>不一样</h1>
+    <div class="rule" style="animation-delay:.3s"></div>
+
+    <div class="blk e a" style="animation-delay:.5s">
+      <div class="tt"><div class="bd">英语</div><div class="nm">脏话可以插进单词内部</div></div>
+      <div class="demo">
+        <div class="fm"><span class="base">abso</span><span class="hot">-fu****g-</span><span class="base">lutely</span></div>
+        <div class="ex">语言学里叫 <b>infix（中缀）</b>—— 把脏词当作<b>强度放大器</b>塞进另一个词中间。<br>它不改变词义，只调高音量。这是英语独有的语法位置。</div>
+      </div>
+    </div>
+
+    <div class="blk c a" style="animation-delay:.7s">
+      <div class="tt"><div class="bd">中文</div><div class="nm">脏话是固定的"称呼件"，黏在关系上</div></div>
+      <div class="demo">
+        <div class="fm"><span class="base">你</span><span class="hot">■■■</span><span class="base">的</span><span class="hot">■■■</span></div>
+        <div class="ex">不是插入，而是<b>替换</b>：把原本的亲属称谓换成一个不可说出的词。<br>结构必须先有一个<b>人伦位置</b>，骂才成立。</div>
+      </div>
+    </div>
+
+    <div class="band a" style="animation-delay:.9s">
+      <div class="k">分野</div>
+      <div class="v">英语是"往词里加料"，中文是"往关系里拆件"</div>
+    </div>
+    <div class="foot">英文词均按「前两字母 + 尾字母保留，中间以星号遮蔽」处理</div>
+  </div>
+</div>
+</body>
+</html>

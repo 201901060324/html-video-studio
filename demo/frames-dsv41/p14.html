@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>p14</title>
+<style>
+:root{
+  --ink:#EEF3FE; --dim:#8496B2; --blue:#4D6BFE; --cyan:#7FE6FF;
+  --mint:#5FE3BC; --amber:#FFB86B; --line:#25334B;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#04060C}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;
+}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden;isolation:isolate}
+.bg{position:absolute;inset:0;background:
+  radial-gradient(1300px 900px at 50% 44%,#0C1424 0%,#070B14 42%,#03050A 100%)}
+.grid{position:absolute;inset:0;opacity:.55;
+  background-image:
+    linear-gradient(to right,rgba(120,155,225,.055) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(120,155,225,.055) 1px,transparent 1px);
+  background-size:120px 120px;
+  -webkit-mask-image:radial-gradient(62% 58% at 50% 48%,#000 10%,transparent 92%)}
+canvas{position:absolute;inset:0;width:1920px;height:1080px;display:block}
+.vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(78% 66% at 50% 48%,transparent 42%,rgba(0,0,0,.62) 100%)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.hud-tl{position:absolute;left:120px;top:58px;font:500 19px/1 "SF Mono",Menlo,monospace;
+  letter-spacing:.30em;color:#54688A;z-index:9}
+.aibadge{position:absolute;right:56px;top:44px;z-index:9;
+  font:500 19px/1 -apple-system,"PingFang SC",sans-serif;color:rgba(226,235,250,.45);
+  padding:9px 15px;border:1px solid rgba(200,220,255,.14);border-radius:100px;letter-spacing:.05em}
+
+.sub{position:absolute;left:120px;bottom:74px;width:1420px;z-index:8}
+.idx{font:500 16px/1 "SF Mono",Menlo,monospace;color:#4C5F7E;letter-spacing:.22em;
+  margin-bottom:17px;display:flex;align-items:center;gap:14px}
+.idx:before{content:"";width:42px;height:1px;background:#2C3B54;display:block}
+.line{font-size:37px;line-height:1.58;color:#BCC9DF;font-weight:400;letter-spacing:.006em}
+.line b{color:#FFFFFF;font-weight:600}
+.line .em{color:var(--cyan);font-weight:600}
+.line .nm{font-family:"SF Mono",Menlo,monospace;font-size:33px;letter-spacing:0;color:#DCE7FF}
+
+.mega{position:absolute;z-index:7}
+.kicker{font:500 19px/1 "SF Mono",Menlo,monospace;letter-spacing:.34em;color:#5F7FBE;margin-bottom:30px}
+
+@keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes fl{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes sc{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+@keyframes ln{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes gl{from{opacity:.35}to{opacity:1}}
+.an{opacity:0;animation:fu 1.0s cubic-bezier(.16,.72,.2,1) forwards}
+.fi{opacity:0;animation:fi .9s ease forwards}
+.fl{opacity:0;animation:fl 1.0s cubic-bezier(.16,.72,.2,1) forwards}
+.sc{opacity:0;animation:sc 1.15s cubic-bezier(.16,.72,.2,1) forwards}
+
+.left{position:absolute;left:120px;top:236px;width:620px;z-index:8}
+.h1{font-size:76px;line-height:1.24;font-weight:600;letter-spacing:-.01em;color:#F2F6FF}
+.stats{margin-top:52px;display:flex;flex-direction:column;gap:18px}
+.st{font-size:25px;color:#8FA2BE}
+.st b{color:#7FE6FF;font-weight:600;margin-right:8px}
+</style></head>
+<body><div class="stage">
+<div class="bg"></div><div class="grid"></div>
+<canvas id="art" width="1920" height="1080"></canvas>
+<div class="vig"></div><div class="grain"></div>
+
+<div class="left">
+  <div class="kicker an" style="animation-delay:.4s">SEARCH · SELF-BUILT</div>
+  <div class="h1 an" style="animation-delay:.6s">我读得懂<br>这个世界。</div>
+  <div class="stats">
+    <div class="st an" style="animation-delay:1.5s"><b>千亿级</b>网页索引</div>
+    <div class="st an" style="animation-delay:1.7s"><b>每天数亿次</b>检索请求</div>
+    <div class="st an" style="animation-delay:1.9s"><b>多语言</b>· 实时返回</div>
+  </div>
+</div>
+
+<div class="hud-tl">DEEPSEEK · V4.1 FLASH</div>
+<div class="aibadge">本视频含 AI 生成内容</div>
+</div>
+<script>
+const cv=document.getElementById('art'),g=cv.getContext('2d');
+const W=1920,H=1080,TAU=Math.PI*2;
+const cl=(v,a,b)=>{a=a==null?0:a;b=b==null?1:b;return v<a?a:(v>b?b:v)};
+const lr=(a,b,t)=>a+(b-a)*t;
+const eo=t=>1-Math.pow(1-cl(t),3);
+const ei=t=>Math.pow(cl(t),3);
+const eio=t=>{t=cl(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const eb=t=>{t=cl(t);const c=1.9;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+function mul32(s){s=s>>>0;return function(){s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
+function C(){g.clearRect(0,0,W,H)}
+function ln(x1,y1,x2,y2,col,w,a,dash){
+  g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;g.strokeStyle=col;
+  g.lineWidth=w==null?1:w;g.lineCap='round';if(dash)g.setLineDash(dash);
+  g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();g.restore();
+}
+function d2(x,y,r,col,a){g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;
+  g.fillStyle=col;g.beginPath();g.arc(x,y,r,0,TAU);g.fill();g.restore();}
+function glow(x,y,r,col,a){g.save();g.globalCompositeOperation='lighter';
+  const gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,col);gr.addColorStop(1,'rgba(0,0,0,0)');
+  g.globalAlpha=a==null?1:a;g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,TAU);g.fill();g.restore();}
+function poly(pts,close){g.beginPath();for(let i=0;i<pts.length;i++){i?g.lineTo(pts[i][0],pts[i][1]):g.moveTo(pts[i][0],pts[i][1]);}if(close)g.closePath();}
+function stroke(col,w,a){g.save();g.globalCompositeOperation='lighter';g.globalAlpha=a==null?1:a;
+  g.strokeStyle=col;g.lineWidth=w==null?1:w;g.lineJoin='round';g.stroke();g.restore();}
+function proj(x,y,z,ry,rx,s,cx,cy){
+  const cz=Math.cos(ry),sz=Math.sin(ry);
+  const X=x*cz-z*sz, Z=x*sz+z*cz;
+  const cr=Math.cos(rx),sr=Math.sin(rx);
+  const Y=y*cr-Z*sr, Z2=y*sr+Z*cr;
+  const k=s/(1+Z2*0.00055);
+  return [cx+X*k,cy+Y*k,Z2];
+}
+const $=(id)=>document.getElementById(id);
+let SEEKING=false,ST=null;
+window.__hf_seek=function(t){SEEKING=true;try{draw(t)}catch(e){console.log('ERR',e.message)}};
+function loop(ts){if(SEEKING)return;if(ST==null)ST=ts;const t=(ts-ST)/1000;try{draw(t)}catch(e){}requestAnimationFrame(loop)}
+function autoRun(){
+  const m=/[#&]t=([0-9.]+)/.exec(location.hash);
+  if(m){SEEKING=true;draw(parseFloat(m[1]));seekCSS(parseFloat(m[1]));return}
+  draw(0);requestAnimationFrame(loop);
+}
+function seekCSS(t){
+  const a=document.getAnimations?document.getAnimations():[];
+  for(let i=0;i<a.length;i++){try{if(a[i].playState!=='paused')a[i].pause();a[i].currentTime=t*1000}catch(e){}}
+}
+
+const DUR=11;
+
+const RP=mul32(123);
+const N=1250,GA=Math.PI*(3-Math.sqrt(5));
+const PT=[];
+for(let i=0;i<N;i++){
+  const y=1-(i/(N-1))*2,r=Math.sqrt(Math.max(0,1-y*y)),th=GA*i;
+  PT.push([Math.cos(th)*r,y,Math.sin(th)*r,RP()<0.05]);
+}
+const BEAM=[];
+for(let i=0;i<7;i++){
+  BEAM.push([Math.floor(RP()*N),Math.floor(RP()*N),RP()]);
+}
+function draw(t){
+  C();
+  const cx=1300,cy=520,rad=340;
+  const ry=t*0.16+0.5;
+  const cz=Math.cos(ry),sz=Math.sin(ry);
+  const app=eo(cl(t/1.6));
+  if(app<0.01)return;
+  // 经纬线
+  g.save();g.globalCompositeOperation='lighter';g.globalAlpha=.13*app;
+  g.strokeStyle='rgba(110,160,255,1)';g.lineWidth=1;
+  for(let k=-2;k<=2;k++){
+    const lat=k*0.55, yy=Math.sin(lat), rr=Math.cos(lat);
+    g.beginPath();
+    for(let i=0;i<=90;i++){
+      const a=i/90*TAU, x=Math.cos(a)*rr, z=Math.sin(a)*rr;
+      const X=x*cz+z*sz, Z=-x*sz+z*cz;
+      const sx2=cx+X*rad, sy2=cy+yy*rad;
+      i?g.lineTo(sx2,sy2):g.moveTo(sx2,sy2);
+    }
+    g.stroke();
+  }
+  for(let k=0;k<12;k++){
+    const lon=k/12*TAU;
+    g.beginPath();
+    for(let i=0;i<=60;i++){
+      const lat=-Math.PI/2+i/60*Math.PI;
+      const x=Math.cos(lat)*Math.cos(lon),y=Math.sin(lat),z=Math.cos(lat)*Math.sin(lon);
+      const X=x*cz+z*sz,Z=-x*sz+z*cz;
+      const sx2=cx+X*rad,sy2=cy+y*rad;
+      i?g.lineTo(sx2,sy2):g.moveTo(sx2,sy2);
+    }
+    g.stroke();
+  }
+  g.restore();
+  // 点阵
+  const appear=eo(cl((t-0.3)/2.2));
+  for(let i=0;i<N;i++){
+    const p=PT[i];
+    const X=p[0]*cz+p[2]*sz, Z=-p[0]*sz+p[2]*cz;
+    const depth=(Z+1)/2;
+    const sx2=cx+X*rad, sy2=cy+p[1]*rad;
+    const al=app*(0.16+(1-depth)*0.92)*appear;
+    if(al<0.012)continue;
+    const r=p[3]?3.0:1.75;
+    if(p[3]){
+      d2(sx2,sy2,r,'rgba(255,190,120,1)',al*1.1);
+      glow(sx2,sy2,12,'rgba(255,180,110,0.25)',al);
+    }else{
+      g.save();g.globalAlpha=al;g.fillStyle='rgba(150,190,255,1)';
+      g.fillRect(sx2-r/2,sy2-r/2,r,r);g.restore();
+    }
+  }
+  // 查询光束
+  for(let k=0;k<BEAM.length;k++){
+    const b=BEAM[k];
+    const p1=PT[b[0]],p2=PT[b[1]];
+    const X1=p1[0]*cz+p1[2]*sz,Z1=-p1[0]*sz+p1[2]*cz;
+    const X2=p2[0]*cz+p2[2]*sz,Z2=-p2[0]*sz+p2[2]*cz;
+    if(Z1>0.45||Z2>0.45)continue;
+    const x1=cx+X1*rad,y1=cy+p1[1]*rad,x2=cx+X2*rad,y2=cy+p2[1]*rad;
+    const ph=((t*0.28+b[2])%1);
+    const mx=(x1+x2)/2,my=(y1+y2)/2;
+    const dx=mx-cx,dy=my-cy,dl=Math.hypot(dx,dy)||1;
+    const cxp=mx+dx/dl*74,cyp=my+dy/dl*74;
+    g.save();g.globalCompositeOperation='lighter';g.globalAlpha=.22*app;
+    g.strokeStyle='rgba(125,230,255,1)';g.lineWidth=1.1;
+    g.beginPath();g.moveTo(x1,y1);g.quadraticCurveTo(cxp,cyp,x2,y2);g.stroke();g.restore();
+    // 行进的光点
+    const u=ph,mu=1-u;
+    const bx=mu*mu*x1+2*mu*u*cxp+u*u*x2;
+    const by=mu*mu*y1+2*mu*u*cyp+u*u*y2;
+    d2(bx,by,2.4,'rgba(190,245,255,1)',.85*app);
+  }
+  // 外圈
+  g.save();g.globalCompositeOperation='lighter';g.globalAlpha=.10*app;
+  g.strokeStyle='rgba(110,160,255,1)';g.lineWidth=1;
+  g.beginPath();g.arc(cx,cy,rad*1.06,0,TAU);g.stroke();g.restore();
+}
+
+autoRun();</script>
+</body></html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(130% 90% at 78% 0%, #0d3040 0%, #0B1622 58%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:100px 120px 100px; display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes pop { from { opacity:0; transform:scale(.9); } to { opacity:1; transform:none; } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes liftLoad { from { transform:scaleY(.14); } to { transform:scaleY(1); } }
+  @keyframes press { from { transform:scaleY(1); } to { transform:scaleY(3.4); } }
+  @keyframes spoilerUp { from { transform:rotate(0deg); } to { transform:rotate(-52deg); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+
+  .tag { display:inline-block; align-self:flex-start; font-size:25px; letter-spacing:.22em; color:#7FD4C0;
+    border:1px solid rgba(127,212,192,.4); border-radius:999px; padding:11px 28px; margin-bottom:26px; }
+  h1 { font-size:58px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  .rule { margin-top:24px; height:3px; width:260px; background:#4FBFA4; transform-origin:left center;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; flex:none; }
+
+  .main { margin-top:26px; display:flex; gap:52px; align-items:stretch; height:404px; }
+
+  /* 左：机翼剖面示意 */
+  .diagram { flex:none; width:840px; height:404px; position:relative;
+    background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.09); border-radius:22px; padding:26px 36px; }
+  .dgT { font-size:24px; color:#8C9EAF; letter-spacing:.06em; }
+  svg { position:absolute; left:36px; top:64px; }
+
+  /* 右：三步说明 */
+  .steps { flex:1; display:flex; flex-direction:column; gap:14px; justify-content:center; }
+  .st { display:flex; gap:22px; padding:16px 24px; border-radius:16px;
+    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); }
+  .st .no { flex:none; width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:24px; font-weight:600; color:#0B1622; background:#7FD4C0; }
+  .st .bd .h { font-size:27px; color:#FFFFFF; font-weight:500; margin-bottom:7px; }
+  .st .bd .p { font-size:21px; color:#8497AC; line-height:1.45; }
+  .st.hi { background:rgba(127,212,192,.10); border-color:rgba(127,212,192,.30); }
+  .st.hi .bd .p { color:#A8BCCD; }
+
+  .key { margin-top:22px; display:flex; gap:36px; align-items:stretch; }
+  .kb { flex:1; padding:16px 30px; border-radius:18px; background:rgba(240,198,94,.10);
+    border:1px solid rgba(240,198,94,.30); }
+  .kb .t { font-size:23px; color:#E4C57E; letter-spacing:.06em; margin-bottom:8px; }
+  .kb .n { font-size:32px; font-weight:600; color:#F2C55C; line-height:1.15; }
+  .kb .d { margin-top:6px; font-size:20px; color:#8497AC; line-height:1.4; }
+  .foot { position:absolute; left:120px; bottom:40px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <div class="tag a" style="animation-delay:.05s">第1 步 · 扰流板</div>
+    <h1 class="a" style="animation-delay:.2s">它不是来"减速"的<br>是来"卸力"的</h1>
+    <div class="rule" style="animation-delay:.4s"></div>
+
+    <div class="main">
+      <div class="diagram a" style="animation-delay:.56s">
+        <div class="dgT">机翼剖面 · 扰流板弹起后的受力变化</div>
+        <svg width="768" height="360" viewBox="0 0 768 380">
+          <!-- 地面 -->
+          <line x1="20" y1="340" x2="748" y2="340" stroke="#3A4A5C" stroke-width="3"/>
+          <text x="24" y="368" fill="#5F738A" font-size="20">跑道</text>
+          <!-- 机身 -->
+          <rect x="300" y="40" width="300" height="32" rx="16" fill="#2C4257" stroke="#4A6580" stroke-width="2"/>
+          <text x="336" y="32" fill="#7FA6CC" font-size="20">机身</text>
+          <!-- 机翼 -->
+          <path d="M120 278 L200 232 L330 202 L470 188 L640 166 L648 202 L470 230 L336 246 L206 272 Z"
+                fill="#24405A" stroke="#5E86AC" stroke-width="2.5"/>
+          <!-- 扰流板（弹出，抬起 52°） -->
+          <g>
+            <rect x="392" y="132" width="150" height="15" rx="7"
+                  fill="#7FD4C0" style="transform-origin:392px 200px; animation:spoilerUp .7s cubic-bezier(.3,1.4,.5,1) .9s both;"/>
+            <text x="556" y="122" fill="#7FD4C0" font-size="21" opacity="0" style="animation:fadeIn .5s ease 1.1s both;">扰流板弹出</text>
+            <path d="M548 128 L500 152" stroke="#7FD4C0" stroke-width="2" opacity="0"
+                  stroke-dasharray="6 5" style="animation:fadeIn .5s ease 1.1s both;"/>
+          </g>
+          <!-- 升力箭头（先出现再消失，说明被卸掉） -->
+          <g opacity="0" style="animation:fadeIn .45s ease .7s both;">
+            <line x1="450" y1="238" x2="450" y2="118" stroke="#F2915C" stroke-width="5" stroke-dasharray="12 9"/>
+            <polygon points="450,104 438,128 462,128" fill="#F2915C"/>
+            <text x="470" y="112" fill="#F2915C" font-size="22">升力</text>
+          </g>
+          <g opacity="0" style="animation:fadeIn .5s ease 1.3s both;">
+            <line x1="250" y1="120" x2="250" y2="150" stroke="#5A6E80" stroke-width="4" stroke-dasharray="8 6"/>
+            <text x="150" y="110" fill="#8C9EAF" font-size="21">升力被卸掉</text>
+          </g>
+          <!-- 轮胎法向力箭头 -->
+          <g>
+            <rect x="418" y="312" width="86" height="28" rx="8" fill="#2C4257" stroke="#5E86AC" stroke-width="2"/>
+            <rect x="426" y="242" width="70" height="12" rx="6" fill="#3A5B7C"/>
+            <line x1="461" y1="254" x2="461" y2="306" stroke="#F0C65E" stroke-width="7"
+                  style="transform-origin:461px 254px; animation:press .9s cubic-bezier(.3,1.3,.4,1) 1.0s both;"/>
+            <polygon points="461,314 448,290 474,290" fill="#F0C65E"/>
+            <text x="518" y="288" fill="#F0C65E" font-size="22">法向力 ×3.4</text>
+          </g>
+          <!-- 水平阻力箭头 -->
+          <g opacity="0" style="animation:fadeIn .5s ease 1.4s both;">
+            <line x1="600" y1="228" x2="500" y2="250" stroke="#8FC2EE" stroke-width="5" stroke-dasharray="12 9"/>
+            <polygon points="488,254 512,240 514,260" fill="#8FC2EE"/>
+            <text x="608" y="226" fill="#8FC2EE" font-size="22">阻力</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="steps">
+        <div class="st a" style="animation-delay:.72s">
+          <div class="no">1</div>
+          <div class="bd">
+            <div class="h">接地 1 秒内自动全开</div>
+            <div class="p">不需要飞行员按键，扰流板在主轮接触地面的瞬间由液压自动弹出，两翼对称。</div>
+          </div>
+        </div>
+        <div class="st a" style="animation-delay:.86s">
+          <div class="no">2</div>
+          <div class="bd">
+            <div class="h">破坏上翼面气流平衡</div>
+            <div class="p">机翼上表面被掀起一块，附流层分离，翼型失速式破坏——升力瞬间掉到接近零。</div>
+          </div>
+        </div>
+        <div class="st hi a" style="animation-delay:1s">
+          <div class="no">3</div>
+          <div class="bd">
+            <div class="h">重量全部压到轮胎上</div>
+            <div class="p">这才是关键：<b>不是为了让飞机慢下来，是为了让刹车有抓地力</b>。不卸升力，轮胎压不住，刹车就是空转打滑。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="key">
+      <div class="kb a" style="animation-delay:1.2s">
+        <div class="t">为什么只在高速有效</div>
+        <div class="n">空气阻力 ∝ 速度²</div>
+        <div class="d">250 km/h 时扰流板的阻力量级，100 km/h 时只剩不到十分之一</div>
+      </div>
+      <div class="kb a" style="animation-delay:1.32s">
+        <div class="t">经验判据</div>
+        <div class="n">不放大扰流板</div>
+        <div class="d">湿跑道上的制动能力会额外损失 20–30%，这是波音技术简报的明确结论</div>
+      </div>
+    </div>
+
+    <div class="foot">数据来源：MTU Aero Engines 技术科普 · 波音《Landing on slippery runways》技术简报</div>
+  </div>
+</div>
+</body>
+</html>

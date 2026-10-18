@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:1920px; height:1080px; overflow:hidden; background:#0B1622;
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stage { width:1920px; height:1080px; position:relative;
+    background:radial-gradient(140% 100% at 50% 50%, #14283c 0%, #0B1622 66%); }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+    background-size:96px 96px; }
+  .wrap { position:absolute; inset:0; padding:100px 100px 66px;
+    display:flex; flex-direction:column; }
+
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  @keyframes growX { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a { opacity:0; animation:rise .85s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes aiIn { from { opacity:0; } to { opacity:1; } }
+  .aibadge { position:absolute; right:56px; top:44px; z-index:5; font-size:26px; letter-spacing:.08em;
+    color:#FFFFFF; padding:11px 22px; border-radius:8px; background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.30); opacity:0; animation:aiIn .5s ease .15s forwards; }
+
+  h1 { font-size:64px; font-weight:600; color:#F4F8FC; line-height:1.16; }
+  h1 .hl { color:#F2915C; }
+  .rule { margin-top:22px; height:3px; width:230px; background:#3E7FB8; transform-origin:left center; flex:none;
+    animation:growX .9s cubic-bezier(.22,.9,.3,1) forwards; }
+
+  .cmp { margin-top:40px; display:flex; gap:40px; align-items:stretch; flex:1; }
+  .side { flex:1; border-radius:20px; padding:32px 38px 30px;
+    border:1px solid rgba(255,255,255,.10); display:flex; flex-direction:column; }
+  .side.en { background:rgba(95,174,236,.085); border-color:rgba(95,174,236,.26); }
+  .side.cn { background:rgba(242,145,92,.085); border-color:rgba(242,145,92,.26); }
+  .side .ttl { font-size:34px; font-weight:600; margin-bottom:8px; }
+  .side.en .ttl { color:#8FC2EE; } .side.cn .ttl { color:#F6B183; }
+  .side .dsc { font-size:23px; color:#8497AC; margin-bottom:26px; letter-spacing:.03em; }
+
+  .itm { display:flex; align-items:center; gap:20px; padding:15px 0;
+    border-top:1px solid rgba(255,255,255,.07); }
+  .itm .no { flex:none; width:34px; height:34px; border-radius:9px; font-size:21px;
+    display:flex; align-items:center; justify-content:center; }
+  .side.en .itm .no { background:rgba(95,174,236,.18); color:#8FC2EE; }
+  .side.cn .itm .no { background:rgba(242,145,92,.18); color:#F6B183; }
+  .itm .txt { flex:1; }
+  .itm .nm { font-size:29px; color:#E9F1F8; font-weight:500; }
+  .itm .ds { margin-top:5px; font-size:22px; color:#8497AC; }
+  .itm .mk { flex:none; font-size:29px; color:#C9D9E6; letter-spacing:.06em;
+    font-family:"SF Mono", Menlo, Consolas, monospace; }
+
+  .band { margin-top:auto; margin-top:26px; padding:24px 36px; border-radius:16px;
+    background:rgba(240,198,94,.10); border:1px solid rgba(240,198,94,.26);
+    display:flex; align-items:center; gap:24px; }
+  .band .k { font-size:24px; letter-spacing:.14em; color:#F0C65E; flex:none;
+    border-right:1px solid rgba(240,198,94,.3); padding-right:22px; }
+  .band .v { font-size:30px; color:#F2E6C8; font-weight:500; }
+  .foot { margin-top:22px; font-size:22px; color:#5F738A; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="aibadge">本视频含 AI 生成内容</div>
+  <div class="wrap">
+    <h1 class="a" style="animation-delay:.1s">差异一 · 骂的<span class="hl">靶点</span>不一样</h1>
+    <div class="rule" style="animation-delay:.3s"></div>
+
+    <div class="cmp">
+      <div class="side en a" style="animation-delay:.45s">
+        <div class="ttl">英语：神与身体</div>
+        <div class="dsc">禁忌来自宗教戒律与肉身羞耻</div>
+
+        <div class="itm">
+          <div class="no">1</div>
+          <div class="txt">
+            <div class="nm">亵渎 · 冒犯神名</div>
+            <div class="ds">最古老的一层，源自十诫</div>
+          </div>
+          <div class="mk">go****n</div>
+        </div>
+        <div class="itm">
+          <div class="no">2</div>
+          <div class="txt">
+            <div class="nm">咒诅 · 罚入地狱</div>
+            <div class="ds">把对方交给神去审判</div>
+          </div>
+          <div class="mk">da*n</div>
+        </div>
+        <div class="itm">
+          <div class="no">3</div>
+          <div class="txt">
+            <div class="nm">排泄与性</div>
+            <div class="ds">当代英语脏话的主力</div>
+          </div>
+          <div class="mk">sh*t</div>
+        </div>
+      </div>
+
+      <div class="side cn a" style="animation-delay:.6s">
+        <div class="ttl">中文：血缘与伦常</div>
+        <div class="dsc">禁忌来自宗族秩序与孝道伦理</div>
+
+        <div class="itm">
+          <div class="no">1</div>
+          <div class="txt">
+            <div class="nm">问候家属</div>
+            <div class="ds">把长辈拖进冲突，最重的羞辱</div>
+          </div>
+          <div class="mk">■■■■</div>
+        </div>
+        <div class="itm">
+          <div class="no">2</div>
+          <div class="txt">
+            <div class="nm">诅咒断后</div>
+            <div class="ds">打碎香火，攻击家族的连续性</div>
+          </div>
+          <div class="mk">■■■■</div>
+        </div>
+        <div class="itm">
+          <div class="no">3</div>
+          <div class="txt">
+            <div class="nm">贬低出身与门第</div>
+            <div class="ds">强调对方"来路不正"</div>
+          </div>
+          <div class="mk">■■■■</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="band a" style="animation-delay:.8s">
+      <div class="k">对照</div>
+      <div class="v">英语脏在"说出口的那个词"，中文脏在"被牵连的那层关系"</div>
+    </div>
+    <div class="foot">英文词按「前两字母 + 尾字母保留，中间以星号遮蔽」处理 · 中文词一律不列词形</div>
+  </div>
+</div>
+</body>
+</html>
